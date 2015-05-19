@@ -1,0 +1,26 @@
+{
+  "name": "phmlabs/CacheWatch",
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/phmLabs/Base"
+    }
+  ],
+  "require": {
+    "symfony/yaml": "~2.2",
+    "symfony/console": "~2.2"
+  },
+
+  "require-dev": {
+    "phmlabs/base": "dev-master"
+  },
+
+  "autoload": {
+    "psr-0": {
+      "whm": "src/"
+    }
+  },
+  "bin": [
+    "bin/CacheWatch.php"
+  ]
+}
