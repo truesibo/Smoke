@@ -1,7 +1,9 @@
 whitelist:
-  - ^http://delivery.stern.de^
-  - ^https://secure-delivery.stern.de^
+  - ^stern.de^
 
 blacklist:
  - ^http://delivery.stern.de/sn/action/3000074/action/logout^
- - ^https://secure-delivery.stern.de/sn/login/3000072/login?next=http://delivery.stern.de/^
+ - ^https://secure-delivery.stern.de/^
+ - ^/archiv/^
+ - ^http://shop.stern.de/^
+ - ^www.stern.de^

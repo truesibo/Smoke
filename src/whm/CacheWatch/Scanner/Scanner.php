@@ -8,6 +8,9 @@ use whm\CacheWatch\Http\MultiCurlClient;
 
 use phmLabs\Base\Www\Html\Document;
 use phmLabs\Base\Www\Uri;
+use whm\CacheWatch\Rules\ExpiresRule;
+use whm\CacheWatch\Rules\MaxAgeRule;
+use whm\CacheWatch\Rules\PragmaNoCacheRule;
 
 class Scanner
 {
@@ -20,6 +23,8 @@ class Scanner
     private $whitelist;
     private $blacklist;
 
+    private $rules = array();
+
     public function __construct(Uri $uri, OutputInterface $output, array $whitelist, array $blacklist, $numUrl = 100, $parallelRequests = 1)
     {
         $this->numParallelRequests = $parallelRequests;
@@ -31,6 +36,10 @@ class Scanner
 
         $this->blacklist = $blacklist;
         $this->whitelist = $whitelist;
+
+        $this->rules[] = new MaxAgeRule();
+        $this->rules[] = new PragmaNoCacheRule();
+        $this->rules[] = new ExpiresRule();
     }
 
     private function isUriAllowed(Uri $uri)
@@ -55,6 +64,7 @@ class Scanner
         $urls = $this->pageContainer->pop($this->numParallelRequests);
 
         $progress = new ProgressBar($this->output, $this->pageContainer->getMaxSize());
+        $progress->setBarWidth(100);
         $progress->start();
 
         while (count($urls) > 0) {
@@ -69,19 +79,19 @@ class Scanner
 
                 foreach ($referencedUris as $uri) {
                     $uriToAdd = $currentUri->concatUri($uri->toString());
-                    if (Uri::isValid($uriToAdd->toString())) {
+
+                    if (true || Uri::isValid($uriToAdd->toString())) {
                         if ($this->isUriAllowed($uriToAdd)) {
                             $this->pageContainer->push($uriToAdd);
                         }
                     }
                 }
 
-                $result = $this->checkHeader($response["header"]);
-                if ($result !== false) {
-                    $violations[$currentUri->toString()]["message"] = $result;
+                $messages = $this->checkResponse($response);
+                if (count($messages) > 0) {
+                    $violations[$currentUri->toString()]["messages"] = $messages;
                     $violations[$currentUri->toString()]["type"] = self::ERROR;
                 } else {
-                    $violations[$currentUri->toString()]["message"] = "all tests passed";
                     $violations[$currentUri->toString()]["type"] = self::PASSED;
                 }
 
@@ -96,39 +106,17 @@ class Scanner
         return $violations;
     }
 
-    private function checkHeader($header)
+    private function checkResponse($response)
     {
-        // @todo create rule classes
-        // @todo same rules as in livetest2?
+        $messages = array();
 
-        $normalizedHeader = strtolower($header);
-        $normalizedHeader = str_replace(" ", "", $normalizedHeader);
-
-        $indicators = array("max-age=0", 'pragma:no-cache', 'cache-control:no-cache');
-
-        foreach ($indicators as $indicator) {
-            if (strpos($normalizedHeader, $indicator) !== false) {
-                return '"' . $indicator . "\" was found";
+        foreach ($this->rules as $rule) {
+            $result = $rule->validate($response);
+            if ($result !== true) {
+                $messages[] = $result;
             }
         }
 
-        $mustHaves = array('max-age');
-
-        foreach ($mustHaves as $mustHave) {
-            if (strpos($normalizedHeader, $mustHave) === false) {
-                return '"' . $mustHave . "\" was not found";
-            }
-        }
-
-        if (preg_match("^Expires: (.*)^", $header, $matches)) {
-            $expires = strtotime($matches[1]);
-            if ($expires < time()) {
-                return "expires in past";
-            }
-        }
-
-        // no expires date and no max-age
-
-        return false;
+        return $messages;
     }
 }

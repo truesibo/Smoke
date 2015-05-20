@@ -40,7 +40,7 @@ class ScanCommand extends Command
         $url = $input->getArgument('url');
         $output->writeln("\n <info>Scanning $url</info>\n");
 
-        if ($input->hasOption('config_file')) {
+        if ($input->getOption('config_file') != "") {
             $configArray = Yaml::parse(file_get_contents($input->getOption('config_file')));
         } else {
             $configArray = array("whitelist" => null, 'blacklist' => null);
@@ -68,16 +68,26 @@ class ScanCommand extends Command
         $output->writeln(" <comment>Passed tests:</comment> \n");
 
         foreach ($scanResult as $url => $result) {
-            if( $result["type"] == Scanner::PASSED ) {
-                $output->writeln("   <info>" . $url . " </info>". $result["message"]);
+            if ($result["type"] == Scanner::PASSED) {
+                $output->writeln("   <info> " . $url . " </info> all tests passed");
             }
         }
 
         $output->writeln("\n <comment>Failed tests:</comment> \n");
 
         foreach ($scanResult as $url => $result) {
-            if( $result["type"] == Scanner::ERROR ) {
-                $output->writeln("   <error>" . $url . " </error>  " . $result["message"]);
+            if ($result["type"] == Scanner::ERROR) {
+                $output->write("   <error> " . $url . " </error> ");
+                $first = true;
+                foreach ($result["messages"] as $message) {
+                    if (!$first) {
+                        $output->writeln(str_pad($message, strlen($url) + 25, " ", STR_PAD_LEFT));
+                    } else {
+                        $output->writeln($message);
+                        $first = false;
+                    }
+
+                }
             }
         }
 

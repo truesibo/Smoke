@@ -1,0 +1,4 @@
+whitelist:
+  - ^amilio.de^
+
+blacklist:

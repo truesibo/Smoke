@@ -41,9 +41,11 @@ class PageContainer
         if (count($this->allElements) < $this->maxSize) {
             if (!in_array($uriString, $this->allElements)) {
                 $this->allElements[] = $uriString;
-                $this->currentElements[] = $uri;
+                array_unshift($this->currentElements, $uri);
             }
         }
+
+        // var_dump($this->currentElements);
     }
 
     public function pop($count = 1)
