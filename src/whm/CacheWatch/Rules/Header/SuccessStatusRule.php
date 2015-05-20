@@ -2,14 +2,15 @@
 
 namespace whm\CacheWatch\Rules\Header;
 
+use whm\CacheWatch\Http\Response;
 use whm\CacheWatch\Rules\Rule;
 
 class SuccessStatusRule implements Rule
 {
-    public function validate($response)
+    public function validate(Response $response)
     {
-        if($response["status"] >= 400) {
-            return "Status code " . $response["status"] . " found.";
+        if($response->getStatus() >= 400) {
+            return "Status code " . $response->getStatus() . " found.";
         }
         return true;
     }

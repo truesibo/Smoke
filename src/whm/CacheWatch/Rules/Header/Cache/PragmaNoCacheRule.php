@@ -8,19 +8,20 @@
 
 namespace whm\CacheWatch\Rules\Header\Cache;
 
+use whm\CacheWatch\Http\Response;
 use whm\CacheWatch\Rules\Rule;
 
 class PragmaNoCacheRule implements Rule
 {
-    public function validate($response)
+    public function validate(Response $response)
     {
-        $response["header"] = strtolower(str_replace(" ", "", $response["header"]));
+        $header = $response->getHeader(true);
 
-        if (strpos($response["header"], "pragma:no-cache") !== false) {
+        if (strpos($header, "pragma:no-cache") !== false) {
             return "pragma:no-cache was found";
         }
 
-        if (strpos($response["header"], "cache-control:no-cache") !== false) {
+        if (strpos($header, "cache-control:no-cache") !== false) {
             return "cache-control:no-cache was found";
         }
 

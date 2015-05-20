@@ -58,9 +58,9 @@ class MultiCurlClient
             $header = substr($response, 0, $header_size);
             $body = substr($response, $header_size);
 
-            $result[$id]["content"] = $body;
-            $result[$id]["header"] = $header;
-            $result[$id]["status"] = $statuscode;
+            $httpResponse = new Response($body, $header, $statuscode, null);
+
+            $result[$id] = $httpResponse;
 
             curl_multi_remove_handle($mh, $c);
         }

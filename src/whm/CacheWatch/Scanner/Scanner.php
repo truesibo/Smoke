@@ -12,6 +12,7 @@ use whm\CacheWatch\Rules\Header\Cache\ExpiresRule;
 use whm\CacheWatch\Rules\Header\Cache\MaxAgeRule;
 use whm\CacheWatch\Rules\Header\Cache\PragmaNoCacheRule;
 use whm\CacheWatch\Rules\Header\SuccessStatusRule;
+use whm\CacheWatch\Rules\Html\ClosingHtmlTagRule;
 
 class Scanner
 {
@@ -42,6 +43,7 @@ class Scanner
         $this->rules[] = new PragmaNoCacheRule();
         $this->rules[] = new ExpiresRule();
         $this->rules[] = new SuccessStatusRule();
+        $this->rules[] = new ClosingHtmlTagRule();
     }
 
     private function isUriAllowed(Uri $uri)
@@ -76,7 +78,7 @@ class Scanner
             foreach ($responses as $url => $response) {
                 $currentUri = new Uri($url);
 
-                $htmlDocument = new Document($response["content"]);
+                $htmlDocument = new Document($response->getBody());
                 $referencedUris = $htmlDocument->getReferencedUris();
 
                 foreach ($referencedUris as $uri) {

@@ -8,8 +8,9 @@
 
 namespace whm\CacheWatch\Rules;
 
+use whm\CacheWatch\Http\Response;
 
 interface Rule
 {
-    public function validate($response);
+    public function validate(Response $response);
 }

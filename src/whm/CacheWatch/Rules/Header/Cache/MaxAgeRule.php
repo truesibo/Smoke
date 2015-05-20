@@ -2,15 +2,14 @@
 
 namespace whm\CacheWatch\Rules\Header\Cache;
 
+use whm\CacheWatch\Http\Response;
 use whm\CacheWatch\Rules\Rule;
 
 class MaxAgeRule implements Rule
 {
-    public function validate($response)
+    public function validate(Response $response)
     {
-        $response["header"] = strtolower(str_replace(" ", "", $response["header"]));
-
-        if (strpos($response["header"], "max-age=0") !== false) {
+        if (strpos($response->getHeader(true), "max-age=0") !== false) {
             return "max-age=0 was found";
         }
         return true;
