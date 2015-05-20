@@ -8,11 +8,13 @@ use whm\CacheWatch\Http\MultiCurlClient;
 
 use phmLabs\Base\Www\Html\Document;
 use phmLabs\Base\Www\Uri;
-use whm\CacheWatch\Rules\Header\Cache\ExpiresRule;
-use whm\CacheWatch\Rules\Header\Cache\MaxAgeRule;
-use whm\CacheWatch\Rules\Header\Cache\PragmaNoCacheRule;
-use whm\CacheWatch\Rules\Header\SuccessStatusRule;
+use whm\CacheWatch\Rules\Html\SizeRule;
+use whm\CacheWatch\Rules\Http\Header\Cache\ExpiresRule;
+use whm\CacheWatch\Rules\Http\Header\Cache\MaxAgeRule;
+use whm\CacheWatch\Rules\Http\Header\Cache\PragmaNoCacheRule;
+use whm\CacheWatch\Rules\Http\Header\SuccessStatusRule;
 use whm\CacheWatch\Rules\Html\ClosingHtmlTagRule;
+use whm\CacheWatch\Rules\Http\DurationRule;
 
 class Scanner
 {
@@ -39,11 +41,14 @@ class Scanner
         $this->blacklist = $blacklist;
         $this->whitelist = $whitelist;
 
+        // @todo create config file for this
         $this->rules[] = new MaxAgeRule();
         $this->rules[] = new PragmaNoCacheRule();
         $this->rules[] = new ExpiresRule();
         $this->rules[] = new SuccessStatusRule();
         $this->rules[] = new ClosingHtmlTagRule();
+        $this->rules[] = new DurationRule(1000);
+        $this->rules[] = new SizeRule(200);
     }
 
     private function isUriAllowed(Uri $uri)

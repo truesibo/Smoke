@@ -19,16 +19,11 @@ class MultiCurlClient
             $data[$uri->toString()] = $uri->toString();
         }
 
-        // array of curl handles
         $curly = array();
-        // data to be returned
         $result = array();
 
-        // multi handle
         $mh = curl_multi_init();
 
-        // loop through $data and create curl handles
-        // then add them to the multi-handle
         foreach ($data as $id => $d) {
 
             $curly[$id] = curl_init();
@@ -42,30 +37,25 @@ class MultiCurlClient
             curl_multi_add_handle($mh, $curly[$id]);
         }
 
-        // execute the handles
         $running = null;
         do {
             curl_multi_exec($mh, $running);
         } while ($running > 0);
 
-
-        // get content and remove handles
         foreach ($curly as $id => $c) {
             $response = curl_multi_getcontent($c);
 
             $statuscode = curl_getinfo($c, CURLINFO_HTTP_CODE);
+            $duration =  curl_getinfo($c,CURLINFO_STARTTRANSFER_TIME);
             $header_size = curl_getinfo($c, CURLINFO_HEADER_SIZE);
             $header = substr($response, 0, $header_size);
             $body = substr($response, $header_size);
 
-            $httpResponse = new Response($body, $header, $statuscode, null);
-
-            $result[$id] = $httpResponse;
+            $result[$id] = new Response($body, $header, $statuscode, $duration);
 
             curl_multi_remove_handle($mh, $c);
         }
 
-        // all done
         curl_multi_close($mh);
 
         return $result;

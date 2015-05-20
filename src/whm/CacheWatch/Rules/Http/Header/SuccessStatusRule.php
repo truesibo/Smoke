@@ -1,6 +1,6 @@
 <?php
 
-namespace whm\CacheWatch\Rules\Header;
+namespace whm\CacheWatch\Rules\Http\Header;
 
 use whm\CacheWatch\Http\Response;
 use whm\CacheWatch\Rules\Rule;
