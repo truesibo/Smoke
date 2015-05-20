@@ -1,4 +1,7 @@
 .idea/
 vendor/
+
+box.phar
+
 composer.phar
 composer.lock
