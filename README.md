@@ -10,22 +10,9 @@ php bin/CacheWatch.php analyse --num_urls=200 "http://www.amilio.de"
 
 ## Installation
 
-### Phar Archive
-
 Download the phar archive using curl
 ```
 curl -O -LSs https://raw.github.com/phmLabs/CacheWatch/master/bin/CacheWatch.phar && chmod +x CacheWatch.phar
-```
-
-### Soruce Code
-Download the sources from GitHub.
-```
-git clone https://github.com/phmLabs/CacheWatch.git CacheWatch
-```
-
-Run composer
-```
-php composer.phar install
 ```
 
 Installation complete.
