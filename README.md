@@ -27,11 +27,8 @@ Installation complete.
 
 ### Config File
 
-The config file is used to define a whitelist and a blacklist for the run. It is stored in the yaml file format.
-
-Every element in the lists will be handled as a regular expression.
-
-*Example amilio.yml* 
+The configuration is stored in a yaml file and defines a *whitelist* and a *blacklist* for the run. Every element in the lists will be handled as a regular expression. A basic example for the site *www.amilio.de* could look like this:
+ 
 ```yaml
 whitelist:
  - ^www.amilio.de^
@@ -39,3 +36,5 @@ whitelist:
 blacklist: 
  - ^www.amilio.de/api^
 ```
+
+For more examples, see the *examples* directory.
