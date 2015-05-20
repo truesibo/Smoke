@@ -1,20 +1,20 @@
 <?php
 
-namespace whm\CacheWatch\Scanner;
+namespace whm\Smoke\Scanner;
 
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
-use whm\CacheWatch\Http\MultiCurlClient;
+use whm\Smoke\Http\MultiCurlClient;
 
 use phmLabs\Base\Www\Html\Document;
 use phmLabs\Base\Www\Uri;
-use whm\CacheWatch\Rules\Html\SizeRule;
-use whm\CacheWatch\Rules\Http\Header\Cache\ExpiresRule;
-use whm\CacheWatch\Rules\Http\Header\Cache\MaxAgeRule;
-use whm\CacheWatch\Rules\Http\Header\Cache\PragmaNoCacheRule;
-use whm\CacheWatch\Rules\Http\Header\SuccessStatusRule;
-use whm\CacheWatch\Rules\Html\ClosingHtmlTagRule;
-use whm\CacheWatch\Rules\Http\DurationRule;
+use whm\Smoke\Rules\Html\SizeRule;
+use whm\Smoke\Rules\Http\Header\Cache\ExpiresRule;
+use whm\Smoke\Rules\Http\Header\Cache\MaxAgeRule;
+use whm\Smoke\Rules\Http\Header\Cache\PragmaNoCacheRule;
+use whm\Smoke\Rules\Http\Header\SuccessStatusRule;
+use whm\Smoke\Rules\Html\ClosingHtmlTagRule;
+use whm\Smoke\Rules\Http\DurationRule;
 
 class Scanner
 {

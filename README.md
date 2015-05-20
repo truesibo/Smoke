@@ -1,18 +1,18 @@
-# CacheWatch
+# Smoke
 
-CacheWatch is a tool that can be used to check the cache header of a given website. 
+Smoke is a tool that can be used to check the cache header of a given website.
 
-The only thing you have to do is to define the entry point for the scanner and start. The CacheWatch crawler will scan the first n (defined as command line parameter) websites it finds abd checks it agains a group of defined rules. 
+The only thing you have to do is to define the entry point for the scanner and start. The Smoke crawler will scan the first n (defined as command line parameter) websites it finds abd checks it agains a group of defined rules.
 
 ```
-CacheWatch.phar analyse "http://www.amilio.de"
+Smoke.phar analyse "http://www.amilio.de"
 ```
 
 ## Installation
 
 Download the phar archive using curl
 ```
-curl -O -LSs https://raw.github.com/phmLabs/CacheWatch/master/bin/CacheWatch.phar && chmod +x CacheWatch.phar
+curl -O -LSs https://raw.github.com/phmLabs/Smoke/master/bin/Smoke.phar && chmod +x Smoke.phar
 ```
 
 Installation complete.

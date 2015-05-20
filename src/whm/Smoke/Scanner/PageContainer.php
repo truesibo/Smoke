@@ -6,7 +6,7 @@
  * Time: 09:14
  */
 
-namespace whm\CacheWatch\Scanner;
+namespace whm\Smoke\Scanner;
 
 
 use phmLabs\Base\Www\Uri;

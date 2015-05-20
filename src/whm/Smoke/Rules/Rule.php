@@ -6,9 +6,9 @@
  * Time: 08:49
  */
 
-namespace whm\CacheWatch\Rules;
+namespace whm\Smoke\Rules;
 
-use whm\CacheWatch\Http\Response;
+use whm\Smoke\Http\Response;
 
 interface Rule
 {

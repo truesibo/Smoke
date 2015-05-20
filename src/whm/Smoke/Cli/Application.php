@@ -6,20 +6,20 @@
  * Time: 08:32
  */
 
-namespace whm\CacheWatch\Cli;
+namespace whm\Smoke\Cli;
 
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
-use whm\CacheWatch\Cli\Command\ScanCommand;
+use whm\Smoke\Cli\Command\ScanCommand;
 
 class Application extends \Symfony\Component\Console\Application
 {
     public function __construct()
     {
-        parent::__construct('CacheWatch', "1.0");
+        parent::__construct('Smoke', "1.0");
     }
 
     public function run(InputInterface $input = null, OutputInterface $output = null)

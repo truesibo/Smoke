@@ -6,7 +6,7 @@
  * Time: 14:09
  */
 
-namespace whm\CacheWatch\Http;
+namespace whm\Smoke\Http;
 
 class Response
 {

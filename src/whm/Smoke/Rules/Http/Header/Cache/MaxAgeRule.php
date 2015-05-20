@@ -1,9 +1,9 @@
 <?php
 
-namespace whm\CacheWatch\Rules\Http\Header\Cache;
+namespace whm\Smoke\Rules\Http\Header\Cache;
 
-use whm\CacheWatch\Http\Response;
-use whm\CacheWatch\Rules\Rule;
+use whm\Smoke\Http\Response;
+use whm\Smoke\Rules\Rule;
 
 class MaxAgeRule implements Rule
 {

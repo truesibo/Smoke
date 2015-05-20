@@ -1,5 +1,5 @@
 {
-  "name": "phmlabs/CacheWatch",
+  "name": "phmlabs/Smoke",
   "repositories": [
     {
       "type": "vcs",
@@ -21,6 +21,6 @@
     }
   },
   "bin": [
-    "bin/CacheWatch.php"
+    "bin/Smoke.php"
   ]
 }

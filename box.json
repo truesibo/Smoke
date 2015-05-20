@@ -1,6 +1,6 @@
 {
     "directories": ["src", "vendor"],
-    "main": "bin/CacheWatch.php",
-    "output": "bin/CacheWatch.phar",
+    "main": "bin/Smoke.php",
+    "output": "bin/Smoke.phar",
     "stub": true
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace whm\CacheWatch\Rules\Http\Header;
+namespace whm\Smoke\Rules\Http\Header;
 
-use whm\CacheWatch\Http\Response;
-use whm\CacheWatch\Rules\Rule;
+use whm\Smoke\Http\Response;
+use whm\Smoke\Rules\Rule;
 
 class SuccessStatusRule implements Rule
 {

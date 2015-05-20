@@ -6,7 +6,7 @@
  * Time: 08:45
  */
 
-namespace whm\CacheWatch\Cli\Command;
+namespace whm\Smoke\Cli\Command;
 
 
 use phmLabs\Base\Www\Uri;
@@ -17,7 +17,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Symfony\Component\Yaml\Yaml;
-use whm\CacheWatch\Scanner\Scanner;
+use whm\Smoke\Scanner\Scanner;
 
 class ScanCommand extends Command
 {

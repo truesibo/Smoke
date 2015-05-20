@@ -6,7 +6,7 @@
  * Time: 13:02
  */
 
-namespace whm\CacheWatch\Http;
+namespace whm\Smoke\Http;
 
 
 class MultiCurlClient

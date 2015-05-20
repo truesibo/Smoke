@@ -6,10 +6,10 @@
  * Time: 14:23
  */
 
-namespace whm\CacheWatch\Rules\Html;
+namespace whm\Smoke\Rules\Html;
 
-use whm\CacheWatch\Http\Response;
-use whm\CacheWatch\Rules\Rule;
+use whm\Smoke\Http\Response;
+use whm\Smoke\Rules\Rule;
 
 class SizeRule implements Rule
 {
