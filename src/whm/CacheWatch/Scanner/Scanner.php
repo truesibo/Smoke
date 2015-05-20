@@ -8,9 +8,10 @@ use whm\CacheWatch\Http\MultiCurlClient;
 
 use phmLabs\Base\Www\Html\Document;
 use phmLabs\Base\Www\Uri;
-use whm\CacheWatch\Rules\ExpiresRule;
-use whm\CacheWatch\Rules\MaxAgeRule;
-use whm\CacheWatch\Rules\PragmaNoCacheRule;
+use whm\CacheWatch\Rules\Header\Cache\ExpiresRule;
+use whm\CacheWatch\Rules\Header\Cache\MaxAgeRule;
+use whm\CacheWatch\Rules\Header\Cache\PragmaNoCacheRule;
+use whm\CacheWatch\Rules\Header\SuccessStatusRule;
 
 class Scanner
 {
@@ -40,6 +41,7 @@ class Scanner
         $this->rules[] = new MaxAgeRule();
         $this->rules[] = new PragmaNoCacheRule();
         $this->rules[] = new ExpiresRule();
+        $this->rules[] = new SuccessStatusRule();
     }
 
     private function isUriAllowed(Uri $uri)

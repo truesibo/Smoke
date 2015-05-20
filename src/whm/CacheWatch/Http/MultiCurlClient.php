@@ -52,12 +52,15 @@ class MultiCurlClient
         // get content and remove handles
         foreach ($curly as $id => $c) {
             $response = curl_multi_getcontent($c);
+
+            $statuscode = curl_getinfo($c, CURLINFO_HTTP_CODE);
             $header_size = curl_getinfo($c, CURLINFO_HEADER_SIZE);
             $header = substr($response, 0, $header_size);
             $body = substr($response, $header_size);
 
             $result[$id]["content"] = $body;
             $result[$id]["header"] = $header;
+            $result[$id]["status"] = $statuscode;
 
             curl_multi_remove_handle($mh, $c);
         }

@@ -1,13 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: langn
- * Date: 20.05.15
- * Time: 08:48
- */
 
-namespace whm\CacheWatch\Rules;
+namespace whm\CacheWatch\Rules\Header\Cache;
 
+use whm\CacheWatch\Rules\Rule;
 
 class ExpiresRule implements Rule
 {

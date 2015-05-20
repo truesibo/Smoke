@@ -6,8 +6,9 @@
  * Time: 08:48
  */
 
-namespace whm\CacheWatch\Rules;
+namespace whm\CacheWatch\Rules\Header\Cache;
 
+use whm\CacheWatch\Rules\Rule;
 
 class PragmaNoCacheRule implements Rule
 {
