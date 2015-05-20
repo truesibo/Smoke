@@ -49,6 +49,7 @@ class Scanner
         $this->rules[] = new ClosingHtmlTagRule();
         $this->rules[] = new DurationRule(1000);
         $this->rules[] = new SizeRule(200);
+        $this->rules[] = new \whm\Smoke\Rules\Image\SizeRule(50);
     }
 
     private function isUriAllowed(Uri $uri)
