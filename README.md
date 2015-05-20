@@ -7,3 +7,23 @@ The only thing you have to do is to define the entry point for the scanner and s
 ```
 php bin/CacheWatch.php analyse --num_urls=200 "http://www.amilio.de"
 ```
+
+## Installation
+Download the sources from GitHub.
+
+```
+git clone https://github.com/phmLabs/CacheWatch.git CacheWatch
+```
+
+Run composer
+```
+php composer.phar install
+```
+
+Installation complete.
+
+## Configuration
+
+### Command Line Parameters
+
+##ä Config File
