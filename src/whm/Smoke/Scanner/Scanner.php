@@ -12,6 +12,7 @@ use whm\Smoke\Rules\Html\SizeRule;
 use whm\Smoke\Rules\Http\Header\Cache\ExpiresRule;
 use whm\Smoke\Rules\Http\Header\Cache\MaxAgeRule;
 use whm\Smoke\Rules\Http\Header\Cache\PragmaNoCacheRule;
+use whm\Smoke\Rules\Http\Header\GZipRule;
 use whm\Smoke\Rules\Http\Header\SuccessStatusRule;
 use whm\Smoke\Rules\Html\ClosingHtmlTagRule;
 use whm\Smoke\Rules\Http\DurationRule;
@@ -50,6 +51,7 @@ class Scanner
         $this->rules[] = new DurationRule(1000);
         $this->rules[] = new SizeRule(200);
         $this->rules[] = new \whm\Smoke\Rules\Image\SizeRule(50);
+        $this->rules[] = new GZipRule();
     }
 
     private function isUriAllowed(Uri $uri)

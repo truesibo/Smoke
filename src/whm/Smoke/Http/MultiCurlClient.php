@@ -34,6 +34,8 @@ class MultiCurlClient
             curl_setopt($curly[$id], CURLOPT_VERBOSE, 0);
             curl_setopt($curly[$id], CURLOPT_RETURNTRANSFER, 1);
 
+            curl_setopt($curly[$id], CURLOPT_ENCODING, '');
+
             curl_multi_add_handle($mh, $curly[$id]);
         }
 
