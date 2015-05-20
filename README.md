@@ -36,7 +36,7 @@ The config file is used to define a whitelist and a blacklist for the run. It is
 
 Every element in the lists will be handled as a regular expression.
 
-*Example*
+*Example amilio.yml* 
 ```
 whitelist:
  - ^www.amilio.de^
