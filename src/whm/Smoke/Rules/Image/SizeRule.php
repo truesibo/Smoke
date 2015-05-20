@@ -27,7 +27,7 @@ class SizeRule implements Rule
         if (strpos($response->getContentType(), 'image') !== false) {
             $size = strlen($response->getBody()) / 1000;
             if ($size > $this->maxSize) {
-                return "The size of the file is to big (" . $size . " KB)";
+                return "The size of the file is too big (" . $size . " KB)";
             }
         }
 
