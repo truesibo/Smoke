@@ -26,4 +26,21 @@ Installation complete.
 
 ### Command Line Parameters
 
-##ä Config File
+* --num_urls - This parameter defines how many urls should be checked
+* --parallel_requests - How many request should be don in parallel
+* --config_file - Config file containing a black- and whitelist
+
+### Config File
+
+The config file is used to define a whitelist and a blacklist for the run. It is stored in the yaml file format.
+
+Every element in the lists will be handled as a regular expression.
+
+*Example*
+```
+whitelist:
+ - ^www.amilio.de^
+ 
+blacklist: 
+ - ^www.amilio.de/api^
+```
