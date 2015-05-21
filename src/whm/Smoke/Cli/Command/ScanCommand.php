@@ -23,6 +23,7 @@ class ScanCommand extends Command
                 new InputOption('parallel_requests', '-p', InputOption::VALUE_OPTIONAL, 'number of parallel requests.', 10),
                 new InputOption('num_urls', '', InputOption::VALUE_OPTIONAL, 'number of urls to be checled', 20),
                 new InputOption('config_file', '', InputOption::VALUE_OPTIONAL, 'config file'),
+                new InputOption('bootstrap', '', InputOption::VALUE_OPTIONAL, 'bootstrap file'),
             ))
             ->setDescription('analyses a website')
             ->setHelp('The <info>analyse</info> command runs a cache test.')
@@ -38,6 +39,10 @@ class ScanCommand extends Command
             $configArray = Yaml::parse(file_get_contents($input->getOption('config_file')));
         } else {
             $configArray = array();
+        }
+
+        if ($input->getOption('bootstrap') != "") {
+            include $input->getOption('bootstrap');
         }
 
         $config = new Configuration($configArray);
