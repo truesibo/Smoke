@@ -27,7 +27,17 @@ Installation complete.
 
 ### Config File
 
-The configuration is stored in a yaml file and defines a *whitelist* and a *blacklist* for the run. Every element in the lists will be handled as a regular expression. A basic example for the site *www.amilio.de* could look like this:
+You may configure any Smoke run using URL *whitelists* and *blacklists* as well as ruleset *definitions*. The configuration is stored in a singe YAML file, so it can be used in subsequent test runs. The configuration file may contain up to three elements:
+
+- **whitelist** contains a dash list of URL regex patterns. This allows Smoke to test an URL in question when it is found somewhere in the HTML source.
+
+- **blacklist** *optional* – contains a dash list of URL regex patterns Smoke is not allowed to test. This is useful for any linked third-party domains or services that are a project of their own, e.g. online shops on a subdomain. 
+
+- **rules** *optional* – contains a list of named tests with their corresponding PHP classes and test parameters.
+
+Currently, it is not possible to *blacklist* a certain URL pattern and *whitelist* another that matches a blacklisted one.
+
+####Configuration example and usage
  
 ```yaml
 whitelist:
@@ -35,6 +45,25 @@ whitelist:
  
 blacklist: 
  - ^www.amilio.de/api^
+
+rules:
+  HtmlSize:
+    class: whm\Smoke\Rules\Html\SizeRule
+    parameters:
+      - maxSize: 1
+
+  ImageSize:
+      class: whm\Smoke\Rules\Image\SizeRule
+      parameters:
+        - maxSize: 1
 ```
 
-For more examples, see the *examples* directory.
+For more examples, see the *examples* directory. 
+To call Smoke with your config file, just issue on command line:
+
+```bash
+Smoke.phar analyse --config_file="test.yml" test.com
+```
+
+
+
