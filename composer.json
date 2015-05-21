@@ -4,6 +4,10 @@
     {
       "type": "vcs",
       "url": "https://github.com/phmLabs/Base"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/phmLabs/NamedParameters"
     }
   ],
   "require": {
@@ -12,7 +16,8 @@
   },
 
   "require-dev": {
-    "phmlabs/base": "dev-master"
+    "phmlabs/base": "dev-master",
+    "phmlabs/namedparameters": "dev-master"
   },
 
   "autoload": {

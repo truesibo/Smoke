@@ -16,9 +16,8 @@ class DurationRule implements Rule
 {
     private $maxDuration;
 
-    public function __construct($maxDurationInMilliseconds = 1000)
-    {
-        $this->maxDuration = $maxDurationInMilliseconds;
+    public function init($maxDuration = 1000 ) {
+        $this->maxDuration = $maxDuration;
     }
 
     public function validate(Response $response)
