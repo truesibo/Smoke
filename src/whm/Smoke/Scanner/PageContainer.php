@@ -16,6 +16,7 @@ class PageContainer
 
     private $currentElements = array();
     private $allElements = array();
+    private $parents = array();
 
     private $maxSize;
 
@@ -34,18 +35,16 @@ class PageContainer
         return $this->allElements;
     }
 
-    public function push(Uri $uri)
+    public function push(Uri $uri, Uri $parentUri)
     {
         $uriString = $uri->toString();
 
         if (count($this->allElements) < $this->maxSize) {
-            if (!in_array($uriString, $this->allElements)) {
-                $this->allElements[] = $uriString;
+            if (!array_key_exists($uriString, $this->allElements)) {
+                $this->allElements[$uriString] = $parentUri->toString();
                 array_unshift($this->currentElements, $uri);
             }
         }
-
-        // var_dump($this->currentElements);
     }
 
     public function pop($count = 1)
@@ -60,5 +59,10 @@ class PageContainer
         }
 
         return $elements;
+    }
+
+    public function getParent(Uri $uri)
+    {
+        return $this->allElements[$uri->toString()];
     }
 }

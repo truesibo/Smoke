@@ -11,4 +11,3 @@ rules:
       class: whm\Smoke\Rules\Image\SizeRule
       parameters:
         - maxSize: 1
-        - minSize: 0
