@@ -4,18 +4,11 @@ namespace whm\Smoke\Scanner;
 
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
+use whm\Smoke\Config\Configuration;
 use whm\Smoke\Http\MultiCurlClient;
 
 use phmLabs\Base\Www\Html\Document;
 use phmLabs\Base\Www\Uri;
-use whm\Smoke\Rules\Html\SizeRule;
-use whm\Smoke\Rules\Http\Header\Cache\ExpiresRule;
-use whm\Smoke\Rules\Http\Header\Cache\MaxAgeRule;
-use whm\Smoke\Rules\Http\Header\Cache\PragmaNoCacheRule;
-use whm\Smoke\Rules\Http\Header\GZipRule;
-use whm\Smoke\Rules\Http\Header\SuccessStatusRule;
-use whm\Smoke\Rules\Html\ClosingHtmlTagRule;
-use whm\Smoke\Rules\Http\DurationRule;
 
 class Scanner
 {
@@ -30,7 +23,7 @@ class Scanner
 
     private $rules = array();
 
-    public function __construct(Uri $uri, OutputInterface $output, array $whitelist, array $blacklist, $numUrl = 100, $parallelRequests = 1)
+    public function __construct(Uri $uri, OutputInterface $output, Configuration $config, $numUrl = 100, $parallelRequests = 1)
     {
         $this->numParallelRequests = $parallelRequests;
 
@@ -39,19 +32,10 @@ class Scanner
 
         $this->output = $output;
 
-        $this->blacklist = $blacklist;
-        $this->whitelist = $whitelist;
+        $this->blacklist = $config->getBlacklist();
+        $this->whitelist = $config->getWhitelist();
 
-        // @todo create config file for this
-        $this->rules[] = new MaxAgeRule();
-        $this->rules[] = new PragmaNoCacheRule();
-        $this->rules[] = new ExpiresRule();
-        $this->rules[] = new SuccessStatusRule();
-        $this->rules[] = new ClosingHtmlTagRule();
-        $this->rules[] = new DurationRule(1000);
-        $this->rules[] = new SizeRule(200);
-        $this->rules[] = new \whm\Smoke\Rules\Image\SizeRule(50);
-        $this->rules[] = new GZipRule();
+        $this->rules = $config->getRules();
     }
 
     private function isUriAllowed(Uri $uri)
