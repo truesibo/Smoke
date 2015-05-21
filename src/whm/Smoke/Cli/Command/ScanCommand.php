@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: langn
- * Date: 19.05.15
- * Time: 08:45
- */
 
 namespace whm\Smoke\Cli\Command;
-
 
 use phmLabs\Base\Www\Uri;
 use Symfony\Component\Console\Command\Command;
@@ -17,6 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Symfony\Component\Yaml\Yaml;
+use whm\Smoke\Config\Configuration;
 use whm\Smoke\Scanner\Scanner;
 
 class ScanCommand extends Command
@@ -43,29 +37,20 @@ class ScanCommand extends Command
         if ($input->getOption('config_file') != "") {
             $configArray = Yaml::parse(file_get_contents($input->getOption('config_file')));
         } else {
-            $configArray = array("whitelist" => null, 'blacklist' => null);
+            $configArray = array();
         }
 
-        if ($configArray["whitelist"] == null) {
-            $configArray["whitelist"] = array("^^");
-        }
-        if ($configArray["blacklist"] == null) {
-            $configArray["blacklist"] = array();
-        }
+        $config = new Configuration($configArray);
 
         $scanner = new Scanner(new Uri($url),
             $output,
-            $configArray["whitelist"],
-            $configArray["blacklist"],
+            $config,
             $input->getOption('num_urls'),
             $input->getOption('parallel_requests'));
 
         $scanResult = $scanner->scan();
 
-        $output->writeln("");
-        $output->writeln("");
-
-        $output->writeln(" <comment>Passed tests:</comment> \n");
+        $output->writeln("\n <comment>Passed tests:</comment> \n");
 
         foreach ($scanResult as $url => $result) {
             if ($result["type"] == Scanner::PASSED) {

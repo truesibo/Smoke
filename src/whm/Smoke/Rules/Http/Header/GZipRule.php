@@ -9,6 +9,10 @@ class GZipRule implements Rule
 {
     public function validate(Response $response)
     {
+        if (strpos($response->getContentType(), "image") !== false) {
+            return true;
+        }
+
         if (strpos($response->getHeader(true), "content-encoding:gzip") === false) {
             return "gzip compression not active";
         }
