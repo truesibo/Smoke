@@ -1,0 +1,6 @@
+whitelist:
+  - ^tvmovie.de^
+
+blacklist:
+  - ^png^
+  - ^jpg^

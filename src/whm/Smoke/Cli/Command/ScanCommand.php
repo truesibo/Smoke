@@ -53,11 +53,16 @@ class ScanCommand extends Command
             $input->getOption('num_urls'),
             $input->getOption('parallel_requests'));
 
-        $scanResult = $scanner->scan();
+        $scanResults = $scanner->scan();
+        $this->renderResults($scanResults, $output);
 
+    }
+
+    private function renderResults($results, OutputInterface $output)
+    {
         $output->writeln("\n <comment>Passed tests:</comment> \n");
 
-        foreach ($scanResult as $url => $result) {
+        foreach ($results as $url => $result) {
             if ($result["type"] == Scanner::PASSED) {
                 $output->writeln("   <info> " . $url . " </info> all tests passed");
             }
@@ -65,19 +70,14 @@ class ScanCommand extends Command
 
         $output->writeln("\n <comment>Failed tests:</comment> \n");
 
-        foreach ($scanResult as $url => $result) {
+        foreach ($results as $url => $result) {
             if ($result["type"] == Scanner::ERROR) {
-                $output->write("   <error> " . $url . " </error> ");
-                $first = true;
+                $output->writeln("   <error> " . $url . " </error> coming from " . $result["parent"]);
                 foreach ($result["messages"] as $message) {
-                    if (!$first) {
-                        $output->writeln(str_pad($message, strlen($url) + 25, " ", STR_PAD_LEFT));
-                    } else {
-                        $output->writeln($message);
-                        $first = false;
-                    }
+                    $output->writeln("    - " . $message);
 
                 }
+                $output->writeln("");
             }
         }
 
