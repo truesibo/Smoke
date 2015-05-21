@@ -23,6 +23,7 @@ class ScanCommand extends Command
                 new InputOption('parallel_requests', '-p', InputOption::VALUE_OPTIONAL, 'number of parallel requests.', 10),
                 new InputOption('num_urls', '', InputOption::VALUE_OPTIONAL, 'number of urls to be checled', 20),
                 new InputOption('config_file', '', InputOption::VALUE_OPTIONAL, 'config file'),
+                new InputOption('bootstrap', '', InputOption::VALUE_OPTIONAL, 'bootstrap file'),
             ))
             ->setDescription('analyses a website')
             ->setHelp('The <info>analyse</info> command runs a cache test.')
@@ -40,6 +41,10 @@ class ScanCommand extends Command
             $configArray = array();
         }
 
+        if ($input->getOption('bootstrap') != "") {
+            include $input->getOption('bootstrap');
+        }
+
         $config = new Configuration($configArray);
 
         $scanner = new Scanner(new Uri($url),
@@ -48,11 +53,16 @@ class ScanCommand extends Command
             $input->getOption('num_urls'),
             $input->getOption('parallel_requests'));
 
-        $scanResult = $scanner->scan();
+        $scanResults = $scanner->scan();
+        $this->renderResults($scanResults, $output);
 
+    }
+
+    private function renderResults($results, OutputInterface $output)
+    {
         $output->writeln("\n <comment>Passed tests:</comment> \n");
 
-        foreach ($scanResult as $url => $result) {
+        foreach ($results as $url => $result) {
             if ($result["type"] == Scanner::PASSED) {
                 $output->writeln("   <info> " . $url . " </info> all tests passed");
             }
@@ -60,19 +70,14 @@ class ScanCommand extends Command
 
         $output->writeln("\n <comment>Failed tests:</comment> \n");
 
-        foreach ($scanResult as $url => $result) {
+        foreach ($results as $url => $result) {
             if ($result["type"] == Scanner::ERROR) {
-                $output->write("   <error> " . $url . " </error> ");
-                $first = true;
+                $output->writeln("   <error> " . $url . " </error> coming from " . $result["parent"]);
                 foreach ($result["messages"] as $message) {
-                    if (!$first) {
-                        $output->writeln(str_pad($message, strlen($url) + 25, " ", STR_PAD_LEFT));
-                    } else {
-                        $output->writeln($message);
-                        $first = false;
-                    }
+                    $output->writeln("    - " . $message);
 
                 }
+                $output->writeln("");
             }
         }
 

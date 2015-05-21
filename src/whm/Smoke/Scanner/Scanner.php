@@ -29,7 +29,7 @@ class Scanner
         $this->numParallelRequests = $parallelRequests;
 
         $this->pageContainer = new PageContainer($numUrl);
-        $this->pageContainer->push($uri);
+        $this->pageContainer->push($uri, $uri);
 
         $this->output = $output;
 
@@ -79,7 +79,7 @@ class Scanner
 
                     if (true || Uri::isValid($uriToAdd->toString())) {
                         if ($this->isUriAllowed($uriToAdd)) {
-                            $this->pageContainer->push($uriToAdd);
+                            $this->pageContainer->push($uriToAdd, $currentUri);
                         }
                     }
                 }
@@ -91,6 +91,7 @@ class Scanner
                 } else {
                     $violations[$currentUri->toString()]["type"] = self::PASSED;
                 }
+                $violations[$currentUri->toString()]["parent"] = $this->pageContainer->getParent($currentUri);
 
                 $progress->advance();
             }
