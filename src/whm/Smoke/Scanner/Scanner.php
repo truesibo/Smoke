@@ -9,6 +9,7 @@ use whm\Smoke\Http\MultiCurlClient;
 
 use phmLabs\Base\Www\Html\Document;
 use phmLabs\Base\Www\Uri;
+use whm\Smoke\Rules\ValidationFailedException;
 
 class Scanner
 {
@@ -107,9 +108,10 @@ class Scanner
         $messages = array();
 
         foreach ($this->rules as $rule) {
-            $result = $rule->validate($response);
-            if ($result !== true) {
-                $messages[] = $result;
+            try {
+                $result = $rule->validate($response);
+            } catch (ValidationFailedException $e) {
+                $messages[] = $e->getMessage();
             }
         }
 

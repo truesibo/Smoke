@@ -10,6 +10,7 @@ namespace whm\Smoke\Rules\Html;
 
 use whm\Smoke\Http\Response;
 use whm\Smoke\Rules\Rule;
+use whm\Smoke\Rules\ValidationFailedException;
 
 class SizeRule implements Rule
 {
@@ -33,10 +34,8 @@ class SizeRule implements Rule
         if ($response->getContentType() == "text/html") {
             $size = strlen($response->getBody()) / 1000;
             if ($size > $this->maxSize) {
-                return "The size of the file is too big (" . $size . " KB)";
+                throw new ValidationFailedException("The size of the file is too big (" . $size . " KB)");
             }
         }
-
-        return true;
     }
 }
