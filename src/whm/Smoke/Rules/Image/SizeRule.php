@@ -10,6 +10,7 @@ namespace whm\Smoke\Rules\Image;
 
 use whm\Smoke\Http\Response;
 use whm\Smoke\Rules\Rule;
+use whm\Smoke\Rules\ValidationFailedException;
 
 class SizeRule implements Rule
 {
@@ -25,9 +26,8 @@ class SizeRule implements Rule
         if (strpos($response->getContentType(), 'image') !== false) {
             $size = strlen($response->getBody()) / 1000;
             if ($size > $this->maxSize) {
-                return "the size of the file is too big (" . $size . " KB)";
+                throw new ValidationFailedException("the size of the file is too big (" . $size . " KB)");
             }
         }
-        return true;
     }
 }
