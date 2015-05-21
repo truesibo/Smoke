@@ -67,12 +67,17 @@ class Configuration
             $rules[] = new ExpiresRule();
             $rules[] = new SuccessStatusRule();
             $rules[] = new ClosingHtmlTagRule();
-            $rules[] = new DurationRule(1000);
-            $rules[] = new SizeRule(200);
-            $rules[] = new \whm\Smoke\Rules\Image\SizeRule(50);
+            $rules[] = new DurationRule();
+            $rules[] = new SizeRule();
+            $rules[] = new \whm\Smoke\Rules\Image\SizeRule();
             $rules[] = new GZipRule();
-        } else {
 
+            foreach ($rules as $rule) {
+                if (method_exists($rule, "init")) {
+                    $rule->init();
+                }
+            }
+        } else {
             foreach ($ruleConfig as $name => $ruleElement) {
 
                 $class = $ruleElement["class"];
@@ -80,17 +85,8 @@ class Configuration
 
                 if (array_key_exists("parameters", $ruleElement)) {
                     if (method_exists($rule, "init")) {
-
-                        $parameters = array();
-
-                        // @todo this must be part of the names parameters library
-                        foreach ($ruleElement["parameters"] as $parameter) {
-                            foreach ($parameter as $key => $value) {
-                                $parameters[$key] = $value;
-                            }
-                        }
-
-                        NamedParameters::call(array($rule, "init"), $parameters);
+                        NamedParameters::call(array($rule, "init"),
+                            NamedParameters::normalizeParameters($ruleElement["parameters"]));
                     }
                 } else {
                     $rule->init();
