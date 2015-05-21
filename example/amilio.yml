@@ -1,4 +1,14 @@
 whitelist:
   - ^amilio.de^
 
-blacklist:
+rules:
+  HtmlSize:
+    class: whm\Smoke\Rules\Html\SizeRule
+    parameters:
+      - maxSize: 1
+
+  ImageSize:
+      class: whm\Smoke\Rules\Image\SizeRule
+      parameters:
+        - maxSize: 1
+        - minSize: 0

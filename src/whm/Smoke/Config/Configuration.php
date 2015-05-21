@@ -16,6 +16,7 @@ use whm\Smoke\Rules\Http\Header\GZipRule;
 use whm\Smoke\Rules\Http\Header\SuccessStatusRule;
 use whm\Smoke\Rules\Html\ClosingHtmlTagRule;
 use whm\Smoke\Rules\Http\DurationRule;
+use PhmLabs\Components\NamedParameters\NamedParameters;
 
 class Configuration
 {
@@ -23,19 +24,27 @@ class Configuration
     private $blacklist;
     private $whitelist;
 
+    private $rules = array();
+
     public function __construct(array $configArray)
     {
         if (array_key_exists("blacklist", $configArray)) {
             $this->blacklist = $configArray["blacklist"];
         } else {
-            $this->blacklist = "";
+            $this->blacklist = array();
         }
 
         if (array_key_exists("whitelist", $configArray)) {
             $this->whitelist = $configArray["whitelist"];
         } else {
-            $this->whitelist = "^^";
+            $this->whitelist = array("^^");
         }
+
+        if (!array_key_exists("rules", $configArray)) {
+            $configArray["rules"] = array();
+        }
+
+        $this->initRules($configArray["rules"]);
     }
 
     public function getBlacklist()
@@ -48,20 +57,52 @@ class Configuration
         return $this->whitelist;
     }
 
-    public function getRules()
+    private function initRules($ruleConfig)
     {
         $rules = array();
 
-        $rules[] = new MaxAgeRule();
-        $rules[] = new PragmaNoCacheRule();
-        $rules[] = new ExpiresRule();
-        $rules[] = new SuccessStatusRule();
-        $rules[] = new ClosingHtmlTagRule();
-        $rules[] = new DurationRule(1000);
-        $rules[] = new SizeRule(200);
-        $rules[] = new \whm\Smoke\Rules\Image\SizeRule(50);
-        $rules[] = new GZipRule();
+        if (count($ruleConfig) == 0) {
+            $rules[] = new MaxAgeRule();
+            $rules[] = new PragmaNoCacheRule();
+            $rules[] = new ExpiresRule();
+            $rules[] = new SuccessStatusRule();
+            $rules[] = new ClosingHtmlTagRule();
+            $rules[] = new DurationRule(1000);
+            $rules[] = new SizeRule(200);
+            $rules[] = new \whm\Smoke\Rules\Image\SizeRule(50);
+            $rules[] = new GZipRule();
+        } else {
 
-        return $rules;
+            foreach ($ruleConfig as $name => $ruleElement) {
+
+                $class = $ruleElement["class"];
+                $rule = new $class;
+
+                if (array_key_exists("parameters", $ruleElement)) {
+                    if (method_exists($rule, "init")) {
+
+                        $parameters = array();
+
+                        // @todo this must be part of the names parameters library
+                        foreach ($ruleElement["parameters"] as $parameter) {
+                            foreach ($parameter as $key => $value) {
+                                $parameters[$key] = $value;
+                            }
+                        }
+
+                        NamedParameters::call(array($rule, "init"), $parameters);
+                    }
+                } else {
+                    $rule->init();
+                }
+                $rules[] = $rule;
+            }
+        }
+        $this->rules = $rules;
+    }
+
+    public function getRules()
+    {
+        return $this->rules;
     }
 }

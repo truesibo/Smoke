@@ -15,11 +15,9 @@ class SizeRule implements Rule
 {
     private $maxSize;
 
-    /**
-     * @param $maxSizeInKB
-     */
-    public function __construct($maxSizeInKB = 100) {
-        $this->maxSize = $maxSizeInKB;
+    public function init($maxSize = 100 ) {
+        var_dump(($maxSize));
+        $this->maxSize = $maxSize;
     }
 
     public function validate(Response $response)

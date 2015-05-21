@@ -23,6 +23,11 @@ class SizeRule implements Rule
         $this->maxSize = $maxSizeInKB;
     }
 
+    public function init($maxSize = 100)
+    {
+        $this->maxSize = $maxSize;
+    }
+
     public function validate(Response $response)
     {
         if ($response->getContentType() == "text/html") {
