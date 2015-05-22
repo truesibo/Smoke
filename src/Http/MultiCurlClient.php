@@ -11,7 +11,7 @@ class MultiCurlClient
         $client = new GuzzleHttp\Client();
 
         $responses = [];
-        $requests = [];
+        $requests  = [];
 
         foreach ($uris as $uri) {
             $requests[] = $client->createRequest('GET', $uri);
@@ -22,9 +22,8 @@ class MultiCurlClient
         foreach ($results as $result) {
             if ($result instanceof GuzzleHttp\Exception\ConnectException) {
                 $responses[$result->getRequest()->getUrl()] = new Response($result->getResponse()->getBody()->getContents(), GuzzleHttp\Message\Response::getHeadersAsString($result->getResponse()), $result->getResponse()->getStatusCode());
-
             } else {
-                /** @var GuzzleHttp\Message\Response $result */
+                /* @var GuzzleHttp\Message\Response $result */
                 $responses[$result->getEffectiveUrl()] = new Response($result->getBody()->getContents(), GuzzleHttp\Message\Response::getHeadersAsString($result), $result->getStatusCode());
             }
         }
