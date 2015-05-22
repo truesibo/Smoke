@@ -17,7 +17,7 @@ class ScanCommand extends Command
 {
     /**
      * Defines what arguments and options are available for the user. Can be listed using
-     * Smoke.phar analyse --help
+     * Smoke.phar analyse --help.
      */
     protected function configure()
     {
@@ -38,25 +38,24 @@ class ScanCommand extends Command
     /**
      * Runs the analysis of the given website with all given parameters.
      *
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $config = $this->initConfiguration(
             $input->getOption('config_file'),
-            $input->getOption("foreign"),
+            $input->getOption('foreign'),
             $input->getOption('num_urls'),
             $input->getOption('parallel_requests'),
             new Uri($input->getArgument('url')));
 
         $output->writeln("\n Smoke " . SMOKE_VERSION . " by Nils Langner\n");
-        $output->writeln(" <info>Scanning " . $config->getStartUri()->toString() . "</info>\n");
+        $output->writeln(' <info>Scanning ' . $config->getStartUri()->toString() . "</info>\n");
 
         if ($input->getOption('bootstrap')) {
             include $input->getOption('bootstrap');
         }
-
 
         $progressBar = new ProgressBar($output, $input->getOption('num_urls'));
         $progressBar->setBarWidth(100);
@@ -70,11 +69,12 @@ class ScanCommand extends Command
     }
 
     /**
-     * Initializes the configuration
+     * Initializes the configuration.
      *
      * @param $configFile
      * @param $loadForeign
      * @param Uri $uri
+     *
      * @return Configuration
      */
     private function initConfiguration($configFile, $loadForeign, $num_urls, $parallel_requests, Uri $uri)
@@ -103,7 +103,7 @@ class ScanCommand extends Command
     }
 
     /**
-     * Renders the result of the test run on the console
+     * Renders the result of the test run on the console.
      *
      * @todo create reporter class
      *

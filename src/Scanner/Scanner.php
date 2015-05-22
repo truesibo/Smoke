@@ -5,7 +5,6 @@ namespace whm\Smoke\Scanner;
 use phmLabs\Base\Www\Html\Document;
 use phmLabs\Base\Www\Uri;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Output\OutputInterface;
 use whm\Smoke\Config\Configuration;
 use whm\Smoke\Http\MultiCurlClient;
 use whm\Smoke\Rules\ValidationFailedException;
@@ -51,18 +50,16 @@ class Scanner
             $responses = MultiCurlClient::request($urls);
 
             foreach ($responses as $url => $response) {
-
                 $currentUri = new Uri($url);
 
                 $this->processHtmlContent($response->getBody(), $currentUri);
 
                 $violation = $this->checkResponse($response);
-                $violation["parent"] = $this->pageContainer->getParent($currentUri);
+                $violation['parent'] = $this->pageContainer->getParent($currentUri);
                 $violations[$url] = $violation;
 
                 $this->progressBar->advance();
             }
-
         } while (count($urls) > 0);
 
         return $violations;

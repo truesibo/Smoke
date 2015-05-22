@@ -35,6 +35,7 @@ return Symfony\CS\Config\Config::create()
         'concat_with_spaces',
         //'align_equals',
         'align_double_arrow',
+        'eof_ending'
     ])
     ->finder($finder)
 ;
