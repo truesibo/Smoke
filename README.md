@@ -5,7 +5,7 @@
 - Homepage: [http://www.thewebhatesme.com/](http://www.thewebhatesme.com/)
 
 
-# Purpose
+## Purpose
 
 Smoke can be used to check if a web platform is basically working.
 
