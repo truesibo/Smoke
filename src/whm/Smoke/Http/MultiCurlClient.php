@@ -1,31 +1,23 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: langn
- * Date: 19.05.15
- * Time: 13:02
- */
 
 namespace whm\Smoke\Http;
-
 
 class MultiCurlClient
 {
     public static function request(array $uris)
     {
-        $data = array();
+        $data = [];
 
         foreach ($uris as $uri) {
             $data[$uri->toString()] = $uri->toString();
         }
 
-        $curly = array();
-        $result = array();
+        $curly  = [];
+        $result = [];
 
         $mh = curl_multi_init();
 
         foreach ($data as $id => $d) {
-
             $curly[$id] = curl_init();
 
             $url = (is_array($d) && !empty($d['url'])) ? $d['url'] : $d;
@@ -47,11 +39,11 @@ class MultiCurlClient
         foreach ($curly as $id => $c) {
             $response = curl_multi_getcontent($c);
 
-            $statuscode = curl_getinfo($c, CURLINFO_HTTP_CODE);
-            $duration =  curl_getinfo($c,CURLINFO_STARTTRANSFER_TIME);
+            $statuscode  = curl_getinfo($c, CURLINFO_HTTP_CODE);
+            $duration    = curl_getinfo($c, CURLINFO_STARTTRANSFER_TIME);
             $header_size = curl_getinfo($c, CURLINFO_HEADER_SIZE);
-            $header = substr($response, 0, $header_size);
-            $body = substr($response, $header_size);
+            $header      = substr($response, 0, $header_size);
+            $body        = substr($response, $header_size);
 
             $result[$id] = new Response($body, $header, $statuscode, $duration);
 

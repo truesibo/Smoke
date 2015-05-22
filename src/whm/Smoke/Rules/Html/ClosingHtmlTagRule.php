@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: langn
- * Date: 20.05.15
- * Time: 14:23
- */
 
 namespace whm\Smoke\Rules\Html;
 
@@ -16,9 +10,9 @@ class ClosingHtmlTagRule implements Rule
 {
     public function validate(Response $response)
     {
-        if (($response->getStatus() < 300 || $response->getStatus() >= 500) && $response->getContentType() == "text/html") {
-            if (strpos($response->getBody(), "</html>") === false) {
-                throw new ValidationFailedException("Closing html tag is missing");
+        if (($response->getStatus() < 300 || $response->getStatus() >= 500) && $response->getContentType() === 'text/html') {
+            if (strpos($response->getBody(), '</html>') === false) {
+                throw new ValidationFailedException('Closing html tag is missing');
             }
         }
     }

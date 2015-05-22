@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: langn
- * Date: 20.05.15
- * Time: 08:48
- */
 
 namespace whm\Smoke\Rules\Http\Header\Cache;
 
@@ -18,12 +12,12 @@ class PragmaNoCacheRule implements Rule
     {
         $header = $response->getHeader(true);
 
-        if (strpos($header, "pragma:no-cache") !== false) {
-            throw new ValidationFailedException("pragma:no-cache was found");
+        if (strpos($header, 'pragma:no-cache') !== false) {
+            throw new ValidationFailedException('pragma:no-cache was found');
         }
 
-        if (strpos($header, "cache-control:no-cache") !== false) {
-            throw new ValidationFailedException("cache-control:no-cache was found");
+        if (strpos($header, 'cache-control:no-cache') !== false) {
+            throw new ValidationFailedException('cache-control:no-cache was found');
         }
     }
 }

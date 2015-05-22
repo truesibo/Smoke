@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: langn
- * Date: 20.05.15
- * Time: 14:09
- */
 
 namespace whm\Smoke\Http;
 
@@ -17,9 +11,9 @@ class Response
 
     public function __construct($body, $header, $status, $duration)
     {
-        $this->body = $body;
-        $this->header = $header;
-        $this->status = $status;
+        $this->body     = $body;
+        $this->header   = $header;
+        $this->status   = $status;
         $this->duration = $duration;
     }
 
@@ -34,7 +28,7 @@ class Response
     }
 
     /**
-     * Returns the duration in milliseconds
+     * Returns the duration in milliseconds.
      */
     public function getDuration()
     {
@@ -44,8 +38,9 @@ class Response
     public function getHeader($normalized = false)
     {
         if ($normalized) {
-            return strtolower(str_replace(" ", "", $this->header));
+            return strtolower(str_replace(' ', '', $this->header));
         }
+
         return $this->header;
     }
 
@@ -55,8 +50,8 @@ class Response
 
         // @fixme doesn't work: Content-Type:text/html; charset=UTF-8
 
-        preg_match("^content-type:(.*)^", $header, $matches);
-        if (array_key_exists(1, $matches) == "") {
+        preg_match('^content-type:(.*)^', $header, $matches);
+        if (array_key_exists(1, $matches) === '') {
             return false;
         } else {
             return $matches[1];
