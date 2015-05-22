@@ -23,6 +23,8 @@ class Scanner
 
     private $rules = [];
 
+    private $configuration;
+
     public function __construct(Uri $uri, OutputInterface $output, Configuration $config, $numUrl = 100, $parallelRequests = 1)
     {
         $this->numParallelRequests = $parallelRequests;
@@ -36,23 +38,8 @@ class Scanner
         $this->whitelist = $config->getWhitelist();
 
         $this->rules = $config->getRules();
-    }
 
-    private function isUriAllowed(Uri $uri)
-    {
-        foreach ($this->whitelist as $whitelist) {
-            if (preg_match($whitelist, $uri->toString())) {
-                foreach ($this->blacklist as $blacklist) {
-                    if (preg_match($blacklist, $uri->toString())) {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-        }
-
-        return false;
+        $this->configuration = $config;
     }
 
     public function scan()
@@ -78,7 +65,7 @@ class Scanner
                     $uriToAdd = $currentUri->concatUri($uri->toString());
 
                     if (true || Uri::isValid($uriToAdd->toString())) {
-                        if ($this->isUriAllowed($uriToAdd)) {
+                        if ($this->configuration->isUriAllowed($uriToAdd)) {
                             $this->pageContainer->push($uriToAdd, $currentUri);
                         }
                     }

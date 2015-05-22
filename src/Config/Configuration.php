@@ -3,6 +3,8 @@
 namespace whm\Smoke\Config;
 
 use PhmLabs\Components\NamedParameters\NamedParameters;
+use PhmLabs\Base\Www\Uri;
+
 use whm\Smoke\Rules\Html\ClosingHtmlTagRule;
 use whm\Smoke\Rules\Html\SizeRule;
 use whm\Smoke\Rules\Http\DurationRule;
@@ -17,9 +19,13 @@ class Configuration
     private $blacklist;
     private $whitelist;
 
+    private $scanForeignDomains = false;
+
+    private $startUri;
+
     private $rules = [];
 
-    public function __construct(array $configArray)
+    public function __construct(Uri $uri, array $configArray)
     {
         if (array_key_exists('blacklist', $configArray)) {
             $this->blacklist = $configArray['blacklist'];
@@ -37,7 +43,24 @@ class Configuration
             $configArray['rules'] = [];
         }
 
+        if (array_key_exists('options', $configArray)) {
+            if (array_key_exists('scanForeignDomains', $configArray["options"])) {
+                $this->scanForeignDomains = true;
+            }
+        }
+        $this->startUri = $uri;
+
         $this->initRules($configArray['rules']);
+    }
+
+    public function getStartUri()
+    {
+        return $this->startUri;
+    }
+
+    public function enableForeignDomainScan()
+    {
+        $this->scanForeignDomains = true;
     }
 
     public function getBlacklist()
@@ -73,7 +96,7 @@ class Configuration
         } else {
             foreach ($ruleConfig as $name => $ruleElement) {
                 $class = $ruleElement['class'];
-                $rule  = new $class();
+                $rule = new $class();
 
                 if (array_key_exists('parameters', $ruleElement)) {
                     if (method_exists($rule, 'init')) {
@@ -92,5 +115,31 @@ class Configuration
     public function getRules()
     {
         return $this->rules;
+    }
+
+    public function scanForeignDomains()
+    {
+        return $this->scanForeignDomains;
+    }
+
+    public function isUriAllowed(Uri $uri)
+    {
+        if (!$this->scanForeignDomains()) {
+            if (!$this->startUri->isSameTopLevelDomain($uri)) {
+                return false;
+            }
+        }
+
+        foreach ($this->whitelist as $whitelist) {
+            if (preg_match($whitelist, $uri->toString())) {
+                foreach ($this->blacklist as $blacklist) {
+                    if (preg_match($blacklist, $uri->toString())) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
     }
 }

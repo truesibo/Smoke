@@ -19,10 +19,11 @@ class ScanCommand extends Command
         $this
             ->setDefinition([
                 new InputArgument('url', InputArgument::REQUIRED, 'the url to start with'),
-                new InputOption('parallel_requests', '-p', InputOption::VALUE_OPTIONAL, 'number of parallel requests.', 10),
-                new InputOption('num_urls', '', InputOption::VALUE_OPTIONAL, 'number of urls to be checled', 20),
-                new InputOption('config_file', '', InputOption::VALUE_OPTIONAL, 'config file'),
-                new InputOption('bootstrap', '', InputOption::VALUE_OPTIONAL, 'bootstrap file'),
+                new InputOption('parallel_requests', 'p', InputOption::VALUE_OPTIONAL, 'number of parallel requests.', 10),
+                new InputOption('num_urls', 'u', InputOption::VALUE_OPTIONAL, 'number of urls to be checled', 20),
+                new InputOption('config_file', 'c', InputOption::VALUE_OPTIONAL, 'config file'),
+                new InputOption('bootstrap', 'b', InputOption::VALUE_OPTIONAL, 'bootstrap file'),
+                new InputOption('foreign', 'f', InputOption::VALUE_OPTIONAL, 'include foreign domains', false),
             ])
             ->setDescription('analyses a website')
             ->setHelp('The <info>analyse</info> command runs a cache test.')
@@ -45,9 +46,13 @@ class ScanCommand extends Command
             include $input->getOption('bootstrap');
         }
 
-        $config = new Configuration($configArray);
+        $config = new Configuration(new Uri ($url), $configArray);
 
-        $scanner = new Scanner(new Uri($url),
+        if ($input->getOption('foreign') === "true") {
+            $config->enableForeignDomainScan();
+        }
+
+        $scanner = new Scanner($config->getStartUri(),
             $output,
             $config,
             $input->getOption('num_urls'),
@@ -59,6 +64,8 @@ class ScanCommand extends Command
 
     private function renderResults($results, OutputInterface $output)
     {
+        // @todo create reporter classes
+
         $output->writeln("\n\n <comment>Passed tests:</comment> \n");
 
         foreach ($results as $url => $result) {
