@@ -32,7 +32,8 @@ class ScanCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $url = $input->getArgument('url');
-        $output->writeln("\n <info>Scanning $url</info>\n");
+        $output->writeln("\n Smoke " . SMOKE_VERSION . " by Nils Langner\n");
+        $output->writeln(" <info>Scanning $url</info>\n");
 
         if ($input->getOption('config_file')) {
             $configArray = Yaml::parse(file_get_contents($input->getOption('config_file')));
@@ -58,7 +59,7 @@ class ScanCommand extends Command
 
     private function renderResults($results, OutputInterface $output)
     {
-        $output->writeln("\n <comment>Passed tests:</comment> \n");
+        $output->writeln("\n\n <comment>Passed tests:</comment> \n");
 
         foreach ($results as $url => $result) {
             if ($result['type'] === Scanner::PASSED) {
