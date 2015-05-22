@@ -20,7 +20,7 @@ class MultiCurlClient
         $results = GuzzleHttp\Pool::batch($client, $requests);
 
         foreach ($results as $result) {
-            if ($result instanceof GuzzleHttp\Exception\ConnectException) {
+            if ($result instanceof GuzzleHttp\Exception\RequestException) {
                 $responses[$result->getRequest()->getUrl()] = new Response($result->getResponse()->getBody()->getContents(), GuzzleHttp\Message\Response::getHeadersAsString($result->getResponse()), $result->getResponse()->getStatusCode());
             } else {
                 /* @var GuzzleHttp\Message\Response $result */
