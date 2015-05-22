@@ -33,7 +33,7 @@ return Symfony\CS\Config\Config::create()
         //'header_comment',
         'ereg_to_preg',
         'concat_with_spaces',
-        'align_equals',
+        //'align_equals',
         'align_double_arrow',
     ])
     ->finder($finder)
