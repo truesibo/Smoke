@@ -11,9 +11,9 @@ class Response
 
     public function __construct($body, $header, $status, $duration = null)
     {
-        $this->body     = $body;
-        $this->header   = $header;
-        $this->status   = $status;
+        $this->body = $body;
+        $this->header = $header;
+        $this->status = $status;
         $this->duration = $duration;
     }
 
