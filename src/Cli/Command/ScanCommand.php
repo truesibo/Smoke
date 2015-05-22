@@ -40,7 +40,7 @@ class ScanCommand extends Command
             $configArray = [];
         }
 
-        if ($input->getOption('bootstrap') !== '') {
+        if ($input->getOption('bootstrap')) {
             include $input->getOption('bootstrap');
         }
 
