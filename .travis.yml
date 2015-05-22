@@ -20,4 +20,4 @@ before_script:
 script:
    - vendor/bin/php-cs-fixer fix --cache-file "$HOME/.php-cs-fixer/.php_cs.cache" --dry-run --diff --verbose
    - php bin/Smoke.php
-   - php bin/Smoke.php --num_urls=1 analyse http://www.phmlabs.com/tools/smoke/tests/maxAge.php
+   - php bin/Smoke.php --num_urls=1 analyse   http://www.phmlabs.com/tools/smoke/tests/maxAge.php
