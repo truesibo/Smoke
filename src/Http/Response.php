@@ -51,7 +51,7 @@ class Response
         // @fixme doesn't work: Content-Type:text/html; charset=UTF-8
 
         preg_match('^content-type:(.*)^', $header, $matches);
-        if (array_key_exists(1, $matches) === '') {
+        if (!array_key_exists(1, $matches)) {
             return false;
         } else {
             return $matches[1];
