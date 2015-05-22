@@ -1,20 +1,20 @@
 language: php
-     php:
-         - 5.4
-         - 5.5
-         - 5.6
-         - 7.0
-         - hhvm
+php:
+   - 5.4
+   - 5.5
+   - 5.6
+   - 7.0
+   - hhvm
 
-     sudo: false
+sudo: false
 
-     cache:
-         directories:
-             - "$HOME/.composer/cache"
-             - "$HOME/.php-cs-fixer"
+cache:
+   directories:
+       - "$HOME/.composer/cache"
+       - "$HOME/.php-cs-fixer"
 
-     before_script:
-         - mkdir -p "$HOME/.php-cs-fixer"
+before_script:
+   - mkdir -p "$HOME/.php-cs-fixer"
 
-     script:
-         - vendor/bin/php-cs-fixer fix --cache-file "$HOME/.php-cs-fixer/.php_cs.cache" --dry-run --diff --verbose
+script:
+   - vendor/bin/php-cs-fixer fix --cache-file "$HOME/.php-cs-fixer/.php_cs.cache" --dry-run --diff --verbose
