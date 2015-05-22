@@ -36,7 +36,6 @@ class Application extends \Symfony\Component\Console\Application
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $this->registerCommands();
-
         return parent::doRun($input, $output);
     }
 

@@ -45,9 +45,9 @@ class Scanner
     public function scan()
     {
         $violations = [];
-        $urls = $this->pageContainer->pop();
 
-        while (count($urls) > 0) {
+        do {
+            $urls = $this->pageContainer->pop($this->configuration->getParallelRequestCount());
             $responses = MultiCurlClient::request($urls);
 
             foreach ($responses as $url => $response) {
@@ -56,19 +56,14 @@ class Scanner
 
                 $this->processHtmlContent($response->getBody(), $currentUri);
 
-                $messages = $this->checkResponse($response);
-                if ($messages) {
-                    $violations[$url] = array('messages' => $messages, 'type' => self::ERROR);
-                } else {
-                    $violations[$url] = array('type' => self::PASSED);
-                }
-                $violations[$url]['parent'] = $this->pageContainer->getParent($currentUri);
+                $violation = $this->checkResponse($response);
+                $violation["parent"] = $this->pageContainer->getParent($currentUri);
+                $violations[$url] = $violation;
 
                 $this->progressBar->advance();
             }
 
-            $urls = $this->pageContainer->pop($this->configuration->getParallelRequestCount());
-        }
+        } while (count($urls) > 0);
 
         return $violations;
     }
@@ -85,6 +80,12 @@ class Scanner
             }
         }
 
-        return $messages;
+        if ($messages) {
+            $violation = array('messages' => $messages, 'type' => self::ERROR);
+        } else {
+            $violation = array('type' => self::PASSED);
+        }
+
+        return $violation;
     }
 }
