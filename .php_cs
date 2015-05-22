@@ -23,7 +23,7 @@ return Symfony\CS\Config\Config::create()
     ->setUsingCache(true)
     //->level(Symfony\CS\FixerInterface::SYMFONY_LEVEL)
     ->fixers([
-        'short_array_syntax',
+        // 'short_array_syntax',
         'ordered_use',
         'strict',
         'strict_param',
