@@ -46,7 +46,7 @@ class ScanCommand extends Command
             include $input->getOption('bootstrap');
         }
 
-        $config = new Configuration(new Uri ($url), $configArray);
+        $config = new Configuration(new Uri($url), $configArray);
 
         if ($input->getOption('foreign')) {
             $config->enableForeignDomainScan();

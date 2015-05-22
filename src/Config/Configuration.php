@@ -2,9 +2,8 @@
 
 namespace whm\Smoke\Config;
 
-use PhmLabs\Components\NamedParameters\NamedParameters;
 use PhmLabs\Base\Www\Uri;
-
+use PhmLabs\Components\NamedParameters\NamedParameters;
 use whm\Smoke\Rules\Html\ClosingHtmlTagRule;
 use whm\Smoke\Rules\Html\SizeRule;
 use whm\Smoke\Rules\Http\DurationRule;
@@ -44,7 +43,7 @@ class Configuration
         }
 
         if (array_key_exists('options', $configArray)) {
-            if (array_key_exists('scanForeignDomains', $configArray["options"])) {
+            if (array_key_exists('scanForeignDomains', $configArray['options'])) {
                 $this->scanForeignDomains = true;
             }
         }
@@ -137,9 +136,11 @@ class Configuration
                         return false;
                     }
                 }
+
                 return true;
             }
         }
+
         return false;
     }
 }

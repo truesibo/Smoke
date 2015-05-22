@@ -7,8 +7,8 @@ use phmLabs\Base\Www\Uri;
 class PageContainer
 {
     private $currentElements = [];
-    private $allElements     = [];
-    private $parents         = [];
+    private $allElements = [];
+    private $parents = [];
 
     private $maxSize;
 

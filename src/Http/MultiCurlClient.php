@@ -11,10 +11,10 @@ class MultiCurlClient
         $client = new GuzzleHttp\Client();
 
         $responses = [];
-        $requests  = [];
+        $requests = [];
 
         foreach ($uris as $uri) {
-            $requests[] = $client->createRequest('GET', $uri, array('headers' => ['Accept-Encoding' => 'gzip']));
+            $requests[] = $client->createRequest('GET', $uri, ['headers' => ['Accept-Encoding' => 'gzip']]);
         }
 
         $results = GuzzleHttp\Pool::batch($client, $requests);
