@@ -22,6 +22,10 @@ class Configuration
 
     private $startUri;
 
+    private $containerSize;
+
+    private $parallelRequestCount;
+
     private $rules = [];
 
     public function __construct(Uri $uri, array $configArray)
@@ -60,6 +64,26 @@ class Configuration
     public function enableForeignDomainScan()
     {
         $this->scanForeignDomains = true;
+    }
+
+    public function setContainerSize($size)
+    {
+        $this->containerSize = $size;
+    }
+
+    public function getContainerSize()
+    {
+        return $this->containerSize;
+    }
+
+    public function setParallelRequestCount($count)
+    {
+        $this->parallelRequestCount = $count;
+    }
+
+    public function getParallelRequestCount()
+    {
+        return $this->parallelRequestCount;
     }
 
     public function getBlacklist()

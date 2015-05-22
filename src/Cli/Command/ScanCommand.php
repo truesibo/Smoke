@@ -4,6 +4,7 @@ namespace whm\Smoke\Cli\Command;
 
 use phmLabs\Base\Www\Uri;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -14,6 +15,10 @@ use whm\Smoke\Scanner\Scanner;
 
 class ScanCommand extends Command
 {
+    /**
+     * Defines what arguments and options are available for the user. Can be listed using
+     * Smoke.phar analyse --help
+     */
     protected function configure()
     {
         $this
@@ -30,42 +35,83 @@ class ScanCommand extends Command
             ->setName('analyse');
     }
 
+    /**
+     * Runs the analysis of the given website with all given parameters.
+     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $url = $input->getArgument('url');
-        $output->writeln("\n Smoke " . SMOKE_VERSION . " by Nils Langner\n");
-        $output->writeln(" <info>Scanning $url</info>\n");
+        $config = $this->initConfiguration(
+            $input->getOption('config_file'),
+            $input->getOption("foreign"),
+            $input->getOption('num_urls'),
+            $input->getOption('parallel_requests'),
+            new Uri($input->getArgument('url')));
 
-        if ($input->getOption('config_file')) {
-            $configArray = Yaml::parse(file_get_contents($input->getOption('config_file')));
-        } else {
-            $configArray = [];
-        }
+        $output->writeln("\n Smoke " . SMOKE_VERSION . " by Nils Langner\n");
+        $output->writeln(" <info>Scanning " . $config->getStartUri()->toString() . "</info>\n");
 
         if ($input->getOption('bootstrap')) {
             include $input->getOption('bootstrap');
         }
 
-        $config = new Configuration(new Uri($url), $configArray);
 
-        if ($input->getOption('foreign')) {
-            $config->enableForeignDomainScan();
-        }
+        $progressBar = new ProgressBar($output, $input->getOption('num_urls'));
+        $progressBar->setBarWidth(100);
 
-        $scanner = new Scanner($config->getStartUri(),
-            $output,
-            $config,
-            $input->getOption('num_urls'),
-            $input->getOption('parallel_requests'));
-
+        $progressBar->start();
+        $scanner = new Scanner($config, $progressBar);
         $scanResults = $scanner->scan();
+        $progressBar->finish();
+
         $this->renderResults($scanResults, $output);
     }
 
+    /**
+     * Initializes the configuration
+     *
+     * @param $configFile
+     * @param $loadForeign
+     * @param Uri $uri
+     * @return Configuration
+     */
+    private function initConfiguration($configFile, $loadForeign, $num_urls, $parallel_requests, Uri $uri)
+    {
+        if ($configFile) {
+            $configArray = Yaml::parse(file_get_contents($configFile));
+        } else {
+            $configArray = [];
+        }
+
+        $config = new Configuration($uri, $configArray);
+
+        if ($loadForeign) {
+            $config->enableForeignDomainScan();
+        }
+
+        if ($num_urls) {
+            $config->setContainerSize($num_urls);
+        }
+
+        if ($parallel_requests) {
+            $config->setParallelRequestCount($parallel_requests);
+        }
+
+        return $config;
+    }
+
+    /**
+     * Renders the result of the test run on the console
+     *
+     * @todo create reporter class
+     *
+     * @param $results
+     * @param OutputInterface $output
+     */
     private function renderResults($results, OutputInterface $output)
     {
-        // @todo create reporter classes
-
         $output->writeln("\n\n <comment>Passed tests:</comment> \n");
 
         foreach ($results as $url => $result) {

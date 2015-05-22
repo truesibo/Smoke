@@ -15,78 +15,60 @@ class Scanner
     const ERROR = 'ERROR';
     const PASSED = 'PASSED';
 
-    private $numParallelRequests;
-    private $output;
-
-    private $whitelist;
-    private $blacklist;
-
-    private $rules = [];
-
+    private $progressBar;
     private $configuration;
 
-    public function __construct(Uri $uri, OutputInterface $output, Configuration $config, $numUrl = 100, $parallelRequests = 1)
+    public function __construct(Configuration $config, ProgressBar $progressBar)
     {
-        $this->numParallelRequests = $parallelRequests;
-
-        $this->pageContainer = new PageContainer($numUrl);
-        $this->pageContainer->push($uri, $uri);
-
-        $this->output = $output;
-
-        $this->blacklist = $config->getBlacklist();
-        $this->whitelist = $config->getWhitelist();
-
-        $this->rules = $config->getRules();
-
+        $this->pageContainer = new PageContainer($config->getContainerSize());
+        $this->pageContainer->push($config->getStartUri(), $config->getStartUri());
+        $this->progressBar = $progressBar;
         $this->configuration = $config;
+    }
+
+    private function processHtmlContent($htmlContent, Uri $currentUri)
+    {
+        $htmlDocument = new Document($htmlContent);
+        $referencedUris = $htmlDocument->getReferencedUris();
+
+        foreach ($referencedUris as $uri) {
+            $uriToAdd = $currentUri->concatUri($uri->toString());
+
+            if (true || Uri::isValid($uriToAdd->toString())) {
+                if ($this->configuration->isUriAllowed($uriToAdd)) {
+                    $this->pageContainer->push($uriToAdd, $currentUri);
+                }
+            }
+        }
     }
 
     public function scan()
     {
         $violations = [];
-
-        $urls = $this->pageContainer->pop($this->numParallelRequests);
-
-        $progress = new ProgressBar($this->output, $this->pageContainer->getMaxSize());
-        $progress->setBarWidth(100);
-        $progress->start();
+        $urls = $this->pageContainer->pop();
 
         while (count($urls) > 0) {
             $responses = MultiCurlClient::request($urls);
 
             foreach ($responses as $url => $response) {
+
                 $currentUri = new Uri($url);
 
-                $htmlDocument = new Document($response->getBody());
-                $referencedUris = $htmlDocument->getReferencedUris();
-
-                foreach ($referencedUris as $uri) {
-                    $uriToAdd = $currentUri->concatUri($uri->toString());
-
-                    if (true || Uri::isValid($uriToAdd->toString())) {
-                        if ($this->configuration->isUriAllowed($uriToAdd)) {
-                            $this->pageContainer->push($uriToAdd, $currentUri);
-                        }
-                    }
-                }
+                $this->processHtmlContent($response->getBody(), $currentUri);
 
                 $messages = $this->checkResponse($response);
-                if (count($messages) > 0) {
-                    $violations[$currentUri->toString()]['messages'] = $messages;
-                    $violations[$currentUri->toString()]['type'] = self::ERROR;
+                if ($messages) {
+                    $violations[$url] = array('messages' => $messages, 'type' => self::ERROR);
                 } else {
-                    $violations[$currentUri->toString()]['type'] = self::PASSED;
+                    $violations[$url] = array('type' => self::PASSED);
                 }
-                $violations[$currentUri->toString()]['parent'] = $this->pageContainer->getParent($currentUri);
+                $violations[$url]['parent'] = $this->pageContainer->getParent($currentUri);
 
-                $progress->advance();
+                $this->progressBar->advance();
             }
 
-            $urls = $this->pageContainer->pop($this->numParallelRequests);
+            $urls = $this->pageContainer->pop($this->configuration->getParallelRequestCount());
         }
-
-        $progress->finish();
 
         return $violations;
     }
@@ -95,9 +77,9 @@ class Scanner
     {
         $messages = [];
 
-        foreach ($this->rules as $rule) {
+        foreach ($this->configuration->getRules() as $rule) {
             try {
-                $result = $rule->validate($response);
+                $rule->validate($response);
             } catch (ValidationFailedException $e) {
                 $messages[] = $e->getMessage();
             }
