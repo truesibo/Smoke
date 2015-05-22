@@ -9,7 +9,7 @@ class Response
     private $duration;
     private $header;
 
-    public function __construct($body, $header, $status, $duration)
+    public function __construct($body, $header, $status, $duration = null)
     {
         $this->body     = $body;
         $this->header   = $header;

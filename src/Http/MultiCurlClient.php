@@ -2,56 +2,32 @@
 
 namespace whm\Smoke\Http;
 
+use GuzzleHttp;
+
 class MultiCurlClient
 {
     public static function request(array $uris)
     {
-        $data = [];
+        $client = new GuzzleHttp\Client();
+
+        $responses = [];
+        $requests  = [];
 
         foreach ($uris as $uri) {
-            $data[$uri->toString()] = $uri->toString();
+            $requests[] = $client->createRequest('GET', $uri);
         }
 
-        $curly  = [];
-        $result = [];
+        $results = GuzzleHttp\Pool::batch($client, $requests);
 
-        $mh = curl_multi_init();
-
-        foreach ($data as $id => $d) {
-            $curly[$id] = curl_init();
-
-            $url = (is_array($d) && !empty($d['url'])) ? $d['url'] : $d;
-            curl_setopt($curly[$id], CURLOPT_URL, $url);
-            curl_setopt($curly[$id], CURLOPT_HEADER, 1);
-            curl_setopt($curly[$id], CURLOPT_VERBOSE, 0);
-            curl_setopt($curly[$id], CURLOPT_RETURNTRANSFER, 1);
-
-            curl_setopt($curly[$id], CURLOPT_ENCODING, '');
-
-            curl_multi_add_handle($mh, $curly[$id]);
+        foreach ($results as $result) {
+            if ($result instanceof GuzzleHttp\Exception\ConnectException) {
+                $responses[$result->getRequest()->getUrl()] = new Response($result->getResponse()->getBody()->getContents(), GuzzleHttp\Message\Response::getHeadersAsString($result->getResponse()), $result->getResponse()->getStatusCode());
+            } else {
+                /* @var GuzzleHttp\Message\Response $result */
+                $responses[$result->getEffectiveUrl()] = new Response($result->getBody()->getContents(), GuzzleHttp\Message\Response::getHeadersAsString($result), $result->getStatusCode());
+            }
         }
 
-        $running = null;
-        do {
-            curl_multi_exec($mh, $running);
-        } while ($running > 0);
-
-        foreach ($curly as $id => $c) {
-            $response = curl_multi_getcontent($c);
-
-            $statuscode  = curl_getinfo($c, CURLINFO_HTTP_CODE);
-            $duration    = curl_getinfo($c, CURLINFO_STARTTRANSFER_TIME);
-            $header_size = curl_getinfo($c, CURLINFO_HEADER_SIZE);
-            $header      = substr($response, 0, $header_size);
-            $body        = substr($response, $header_size);
-
-            $result[$id] = new Response($body, $header, $statuscode, $duration);
-
-            curl_multi_remove_handle($mh, $c);
-        }
-
-        curl_multi_close($mh);
-
-        return $result;
+        return $responses;
     }
 }
