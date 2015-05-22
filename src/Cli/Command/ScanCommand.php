@@ -34,7 +34,9 @@ class ScanCommand extends Command
         $url = $input->getArgument('url');
         $output->writeln("\n <info>Scanning $url</info>\n");
 
-        if ($input->getOption('config_file') !== '') {
+        var_dump( $input->getOption('config_file'));
+
+        if (!is_null($input->getOption('config_file'))) {
             $configArray = Yaml::parse(file_get_contents($input->getOption('config_file')));
         } else {
             $configArray = [];
