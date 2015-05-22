@@ -26,13 +26,19 @@ Installation complete.
 
 ## Configuration
 
-### Command Line Parameters
+### Command Line Parameters for Analysis
 
-* --num_urls - This parameter defines how many urls should be checked (standard: 20)
-* --parallel_requests - How many request should be don in parallel (standard: 10)
-* --config_file - Config file containing a black- and whitelist
+- **--num_urls** defines how many urls should be checked. Standard is 20.  
+  Example: `Smoke.phar analyse --num-urls="20" test.com` 
 
-### Config File
+- **--parallel_requests** defines how many requests are done in parallel. Standard is 10.  
+  Example: `Smoke.phar analyse --parallel_requests="10" test.com` 
+
+- **--config_file** sets the configuration file to use for subsequently testing  
+  Example: `Smoke.phar analyse --config_file="path/to/my.yml" test.com` 
+
+
+###Configuration File
 
 You may configure any Smoke run using URL *whitelists* and *blacklists* as well as ruleset *definitions*. The configuration is stored in a singe YAML file, so it can be used in subsequent test runs. The configuration file may contain up to three elements:
 
