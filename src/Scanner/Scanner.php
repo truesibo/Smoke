@@ -12,7 +12,7 @@ use whm\Smoke\Rules\ValidationFailedException;
 
 class Scanner
 {
-    const ERROR  = 'ERROR';
+    const ERROR = 'ERROR';
     const PASSED = 'PASSED';
 
     private $numParallelRequests;
@@ -71,7 +71,7 @@ class Scanner
             foreach ($responses as $url => $response) {
                 $currentUri = new Uri($url);
 
-                $htmlDocument   = new Document($response->getBody());
+                $htmlDocument = new Document($response->getBody());
                 $referencedUris = $htmlDocument->getReferencedUris();
 
                 foreach ($referencedUris as $uri) {
@@ -87,7 +87,7 @@ class Scanner
                 $messages = $this->checkResponse($response);
                 if (count($messages) > 0) {
                     $violations[$currentUri->toString()]['messages'] = $messages;
-                    $violations[$currentUri->toString()]['type']     = self::ERROR;
+                    $violations[$currentUri->toString()]['type'] = self::ERROR;
                 } else {
                     $violations[$currentUri->toString()]['type'] = self::PASSED;
                 }
