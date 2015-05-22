@@ -10,8 +10,8 @@ class MaxAgeRule implements Rule
 {
     public function validate(Response $response)
     {
-        if (strpos($response->getHeader(true), "max-age=0") !== false) {
-            throw new ValidationFailedException("max-age=0 was found");
+        if (strpos($response->getHeader(true), 'max-age=0') !== false) {
+            throw new ValidationFailedException('max-age=0 was found');
         }
     }
 }

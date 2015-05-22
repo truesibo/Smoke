@@ -11,20 +11,23 @@
     }
   ],
   "require": {
+    "php" : "~5.4",
     "symfony/yaml": "~2.2",
     "symfony/console": "~2.2"
   },
 
   "require-dev": {
     "phmlabs/base": "dev-master",
-    "phmlabs/namedparameters": "dev-master"
+    "phmlabs/namedparameters": "dev-master",
+    "fabpot/php-cs-fixer" : "dev-master"
   },
 
   "autoload": {
-    "psr-0": {
-      "whm": "src/"
+    "psr-4": {
+      "whm\\Smoke\\": "src/"
     }
   },
+
   "bin": [
     "bin/Smoke.php"
   ]

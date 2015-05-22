@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: langn
- * Date: 20.05.15
- * Time: 14:58
- */
 
 namespace whm\Smoke\Rules\Http;
 
@@ -24,7 +18,7 @@ class DurationRule implements Rule
     public function validate(Response $response)
     {
         if ($response->getDuration() * 1000 > $this->maxDuration) {
-            throw new ValidationFailedException("the http request lasted " . $response->getDuration() . " seconds.");
+            throw new ValidationFailedException('the http request lasted ' . $response->getDuration() . ' seconds.');
         }
     }
 }
