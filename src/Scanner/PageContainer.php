@@ -1,22 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: langn
- * Date: 19.05.15
- * Time: 09:14
- */
 
 namespace whm\Smoke\Scanner;
-
 
 use phmLabs\Base\Www\Uri;
 
 class PageContainer
 {
-
-    private $currentElements = array();
-    private $allElements = array();
-    private $parents = array();
+    private $currentElements = [];
+    private $allElements     = [];
+    private $parents         = [];
 
     private $maxSize;
 
@@ -49,11 +41,11 @@ class PageContainer
 
     public function pop($count = 1)
     {
-        $elements = array();
+        $elements = [];
 
-        for($i = 0; $i < $count; $i++) {
+        for ($i = 0; $i < $count; ++$i) {
             $element = array_pop($this->currentElements);
-            if( !is_null($element)) {
+            if (!is_null($element)) {
                 $elements[] = $element;
             }
         }

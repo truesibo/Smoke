@@ -5,3 +5,5 @@ box.phar
 
 composer.phar
 composer.lock
+
+.php_cs.cache

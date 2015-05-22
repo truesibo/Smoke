@@ -10,8 +10,8 @@ class SuccessStatusRule implements Rule
 {
     public function validate(Response $response)
     {
-        if($response->getStatus() >= 400) {
-            throw new ValidationFailedException("Status code " . $response->getStatus() . " found.");
+        if ($response->getStatus() >= 400) {
+            throw new ValidationFailedException('Status code ' . $response->getStatus() . ' found.');
         }
     }
 }

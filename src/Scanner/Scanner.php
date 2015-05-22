@@ -2,19 +2,18 @@
 
 namespace whm\Smoke\Scanner;
 
+use phmLabs\Base\Www\Html\Document;
+use phmLabs\Base\Www\Uri;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
 use whm\Smoke\Config\Configuration;
 use whm\Smoke\Http\MultiCurlClient;
-
-use phmLabs\Base\Www\Html\Document;
-use phmLabs\Base\Www\Uri;
 use whm\Smoke\Rules\ValidationFailedException;
 
 class Scanner
 {
-    const ERROR = "ERROR";
-    const PASSED = "PASSED";
+    const ERROR  = 'ERROR';
+    const PASSED = 'PASSED';
 
     private $numParallelRequests;
     private $output;
@@ -22,7 +21,7 @@ class Scanner
     private $whitelist;
     private $blacklist;
 
-    private $rules = array();
+    private $rules = [];
 
     public function __construct(Uri $uri, OutputInterface $output, Configuration $config, $numUrl = 100, $parallelRequests = 1)
     {
@@ -48,15 +47,17 @@ class Scanner
                         return false;
                     }
                 }
+
                 return true;
             }
         }
+
         return false;
     }
 
     public function scan()
     {
-        $violations = array();
+        $violations = [];
 
         $urls = $this->pageContainer->pop($this->numParallelRequests);
 
@@ -65,13 +66,12 @@ class Scanner
         $progress->start();
 
         while (count($urls) > 0) {
-
             $responses = MultiCurlClient::request($urls);
 
             foreach ($responses as $url => $response) {
                 $currentUri = new Uri($url);
 
-                $htmlDocument = new Document($response->getBody());
+                $htmlDocument   = new Document($response->getBody());
                 $referencedUris = $htmlDocument->getReferencedUris();
 
                 foreach ($referencedUris as $uri) {
@@ -86,12 +86,12 @@ class Scanner
 
                 $messages = $this->checkResponse($response);
                 if (count($messages) > 0) {
-                    $violations[$currentUri->toString()]["messages"] = $messages;
-                    $violations[$currentUri->toString()]["type"] = self::ERROR;
+                    $violations[$currentUri->toString()]['messages'] = $messages;
+                    $violations[$currentUri->toString()]['type']     = self::ERROR;
                 } else {
-                    $violations[$currentUri->toString()]["type"] = self::PASSED;
+                    $violations[$currentUri->toString()]['type'] = self::PASSED;
                 }
-                $violations[$currentUri->toString()]["parent"] = $this->pageContainer->getParent($currentUri);
+                $violations[$currentUri->toString()]['parent'] = $this->pageContainer->getParent($currentUri);
 
                 $progress->advance();
             }
@@ -106,7 +106,7 @@ class Scanner
 
     private function checkResponse($response)
     {
-        $messages = array();
+        $messages = [];
 
         foreach ($this->rules as $rule) {
             try {

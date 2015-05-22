@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: langn
- * Date: 20.05.15
- * Time: 14:23
- */
 
 namespace whm\Smoke\Rules\Html;
 
@@ -31,10 +25,10 @@ class SizeRule implements Rule
 
     public function validate(Response $response)
     {
-        if ($response->getContentType() == "text/html") {
+        if ($response->getContentType() === 'text/html') {
             $size = strlen($response->getBody()) / 1000;
             if ($size > $this->maxSize) {
-                throw new ValidationFailedException("The size of the file is too big (" . $size . " KB)");
+                throw new ValidationFailedException('The size of the file is too big (' . $size . ' KB)');
             }
         }
     }

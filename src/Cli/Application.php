@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: langn
- * Date: 19.05.15
- * Time: 08:32
- */
 
 namespace whm\Smoke\Cli;
 
@@ -19,30 +13,35 @@ class Application extends \Symfony\Component\Console\Application
 {
     public function __construct()
     {
-        parent::__construct('Smoke', "1.0");
+        parent::__construct('Smoke', '1.0');
     }
 
+    /**
+     * @inheritdoc
+     */
     public function run(InputInterface $input = null, OutputInterface $output = null)
     {
         if (null === $output) {
             $styles['failure'] = new OutputFormatterStyle('red');
-            $formatter = new OutputFormatter(null, $styles);
-            $output = new ConsoleOutput(ConsoleOutput::VERBOSITY_NORMAL, null, $formatter);
+            $formatter         = new OutputFormatter(null, $styles);
+            $output            = new ConsoleOutput(ConsoleOutput::VERBOSITY_NORMAL, null, $formatter);
         }
+
         return parent::run($input, $output);
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $this->registerCommands();
+
         return parent::doRun($input, $output);
     }
 
     /**
-     * Initializes all the yuml-php commands
+     * Initializes all the commands.
      */
     private function registerCommands()
     {
