@@ -23,7 +23,7 @@ class ScanCommand extends Command
                 new InputOption('num_urls', 'u', InputOption::VALUE_OPTIONAL, 'number of urls to be checled', 20),
                 new InputOption('config_file', 'c', InputOption::VALUE_OPTIONAL, 'config file'),
                 new InputOption('bootstrap', 'b', InputOption::VALUE_OPTIONAL, 'bootstrap file'),
-                new InputOption('foreign', 'f', InputOption::VALUE_OPTIONAL, 'include foreign domains', false),
+                new InputOption('foreign', 'f', InputOption::VALUE_NONE, 'include foreign domains'),
             ])
             ->setDescription('analyses a website')
             ->setHelp('The <info>analyse</info> command runs a cache test.')
@@ -48,7 +48,7 @@ class ScanCommand extends Command
 
         $config = new Configuration(new Uri ($url), $configArray);
 
-        if ($input->getOption('foreign') === "true") {
+        if ($input->getOption('foreign')) {
             $config->enableForeignDomainScan();
         }
 
