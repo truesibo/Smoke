@@ -55,6 +55,6 @@ class PageContainer
 
     public function getParent(Uri $uri)
     {
-        return $this->allElements[$uri->toString()];
+        return isset($this->allElements[$uri->toString()]) ? $this->allElements[$uri->toString()] : null;
     }
 }
