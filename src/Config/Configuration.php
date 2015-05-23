@@ -30,7 +30,7 @@ class Configuration
 
     public function __construct(Uri $uri, array $configArray, array $defaultSettings = array())
     {
-        if( count($configArray) == 0 ) {
+        if( count($configArray) === 0 ) {
             $configArray = $defaultSettings;
         }
 
