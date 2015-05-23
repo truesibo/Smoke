@@ -38,7 +38,7 @@ class ScanCommand extends Command
     /**
      * Runs the analysis of the given website with all given parameters.
      *
-     * @param InputInterface  $input
+     * @param InputInterface $input
      * @param OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -79,12 +79,14 @@ class ScanCommand extends Command
      */
     private function initConfiguration($configFile, $loadForeign, $num_urls, $parallel_requests, Uri $uri)
     {
-        if (!$configFile) {
-            $configFile = __DIR__ . "/../../settings/default.yml";
+        $defaultConfigFile = __DIR__ . "/../../settings/default.yml";
+        if ($configFile) {
+            $configArray = Yaml::parse(file_get_contents($configFile));
+        } else {
+            $configArray = array();
         }
-        $configArray = Yaml::parse(file_get_contents($configFile));
 
-        $config = new Configuration($uri, $configArray);
+        $config = new Configuration($uri, $configArray, Yaml::parse(file_get_contents($defaultConfigFile)));
 
         if ($loadForeign) {
             $config->enableForeignDomainScan();

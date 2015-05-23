@@ -28,8 +28,12 @@ class Configuration
 
     private $rules = [];
 
-    public function __construct(Uri $uri, array $configArray)
+    public function __construct(Uri $uri, array $configArray, array $defaultSettings = array())
     {
+        if( count($configArray) == 0 ) {
+            $configArray = $defaultSettings;
+        }
+
         if (array_key_exists('blacklist', $configArray)) {
             $this->blacklist = $configArray['blacklist'];
         } else {
