@@ -1,13 +1,16 @@
+options:
+  extendDefault: true
+
 whitelist:
   - ^amilio.de^
 
 rules:
-  HtmlSize:
+  _HtmlSize:
     class: whm\Smoke\Rules\Html\SizeRule
     parameters:
       maxSize: 1
 
-  ImageSize:
+  _ImageSize:
       class: whm\Smoke\Rules\Image\SizeRule
       parameters:
         maxSize: 1

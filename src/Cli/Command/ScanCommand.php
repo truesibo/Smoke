@@ -58,9 +58,12 @@ class ScanCommand extends Command
         }
 
         $progressBar = new ProgressBar($output, $input->getOption('num_urls'));
+
         $progressBar->setBarWidth(100);
+        $progressBar->setFormat('normal');
 
         $progressBar->start();
+
         $scanner = new Scanner($config, $progressBar);
         $scanResults = $scanner->scan();
         $progressBar->finish();

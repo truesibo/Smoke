@@ -54,6 +54,12 @@ class Configuration
             if (array_key_exists('scanForeignDomains', $configArray['options'])) {
                 $this->scanForeignDomains = true;
             }
+            if(array_key_exists('extendDefault', $configArray["options"])) {
+                if($configArray["options"]["extendDefault"] === true) {
+                    $configArray = array_replace_recursive( $defaultSettings, $configArray);
+                }
+
+            }
         }
         $this->startUri = $uri;
 
