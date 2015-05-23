@@ -79,11 +79,10 @@ class ScanCommand extends Command
      */
     private function initConfiguration($configFile, $loadForeign, $num_urls, $parallel_requests, Uri $uri)
     {
-        if ($configFile) {
-            $configArray = Yaml::parse(file_get_contents($configFile));
-        } else {
-            $configArray = [];
+        if (!$configFile) {
+            $configFile = __DIR__ . "/../../settings/default.yml";
         }
+        $configArray = Yaml::parse(file_get_contents($configFile));
 
         $config = new Configuration($uri, $configArray);
 

@@ -98,41 +98,19 @@ class Configuration
 
     private function initRules($ruleConfig)
     {
-        $rules = [];
+        foreach ($ruleConfig as $name => $ruleElement) {
+            $class = $ruleElement['class'];
+            $rule = new $class();
 
-        if (count($ruleConfig) === 0) {
-            $rules[] = new MaxAgeRule();
-            $rules[] = new PragmaNoCacheRule();
-            $rules[] = new ExpiresRule();
-            $rules[] = new SuccessStatusRule();
-            $rules[] = new ClosingHtmlTagRule();
-            $rules[] = new DurationRule();
-            $rules[] = new SizeRule();
-            $rules[] = new \whm\Smoke\Rules\Image\SizeRule();
-            $rules[] = new GZipRule();
-
-            foreach ($rules as $rule) {
-                if (method_exists($rule, 'init')) {
-                    $rule->init();
-                }
-            }
-        } else {
-            foreach ($ruleConfig as $name => $ruleElement) {
-                $class = $ruleElement['class'];
-                $rule = new $class();
-
+            if (method_exists($rule, 'init')) {
                 if (array_key_exists('parameters', $ruleElement)) {
-                    if (method_exists($rule, 'init')) {
-                        NamedParameters::call([$rule, 'init'],
-                            NamedParameters::normalizeParameters($ruleElement['parameters']));
-                    }
+                    NamedParameters::call([$rule, 'init'], $ruleElement['parameters']);
                 } else {
                     $rule->init();
                 }
-                $rules[] = $rule;
             }
+            $this->rules[] = $rule;
         }
-        $this->rules = $rules;
     }
 
     public function getRules()
