@@ -39,7 +39,6 @@ class Configuration
                 if ($configArray["options"]["extendDefault"] === true) {
                     $configArray = array_replace_recursive($defaultSettings, $configArray);
                 }
-
             }
             if (array_key_exists('scanForeignDomains', $configArray['options'])) {
                 $this->scanForeignDomains = $configArray["options"]["scanForeignDomains"];
