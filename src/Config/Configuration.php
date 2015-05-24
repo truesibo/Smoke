@@ -110,6 +110,11 @@ class Configuration
     {
         foreach ($ruleConfig as $name => $ruleElement) {
             $class = $ruleElement['class'];
+
+            if(!class_exists($class)) {
+                throw new \RuntimeException("No rule with classname " . $class . " found");
+            }
+
             $rule = new $class();
 
             if (method_exists($rule, 'init')) {
