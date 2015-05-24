@@ -30,8 +30,20 @@ class Configuration
 
     public function __construct(Uri $uri, array $configArray, array $defaultSettings = array())
     {
-        if( count($configArray) == 0 ) {
+        if (count($configArray) == 0) {
             $configArray = $defaultSettings;
+        }
+
+        if (array_key_exists('options', $configArray)) {
+            if (array_key_exists('extendDefault', $configArray["options"])) {
+                if ($configArray["options"]["extendDefault"] === true) {
+                    $configArray = array_replace_recursive($defaultSettings, $configArray);
+                }
+
+            }
+            if (array_key_exists('scanForeignDomains', $configArray['options'])) {
+                $this->scanForeignDomains = $configArray["options"]["scanForeignDomains"];
+            }
         }
 
         if (array_key_exists('blacklist', $configArray)) {
@@ -50,17 +62,6 @@ class Configuration
             $configArray['rules'] = [];
         }
 
-        if (array_key_exists('options', $configArray)) {
-            if (array_key_exists('scanForeignDomains', $configArray['options'])) {
-                $this->scanForeignDomains = true;
-            }
-            if(array_key_exists('extendDefault', $configArray["options"])) {
-                if($configArray["options"]["extendDefault"] === true) {
-                    $configArray = array_replace_recursive( $defaultSettings, $configArray);
-                }
-
-            }
-        }
         $this->startUri = $uri;
 
         $this->initRules($configArray['rules']);
