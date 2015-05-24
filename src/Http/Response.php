@@ -8,13 +8,20 @@ class Response
     private $body;
     private $duration;
     private $header;
+    private $request;
 
-    public function __construct($body, $header, $status, $duration = null)
+    public function __construct($body, $header, $status, $duration = null, $request = null)
     {
         $this->body = $body;
         $this->header = $header;
         $this->status = $status;
         $this->duration = $duration;
+        $this->request = $request;
+    }
+
+    public function getRequest()
+    {
+        return $this->request;
     }
 
     public function getStatus()
