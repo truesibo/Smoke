@@ -69,6 +69,17 @@ class ScanCommand extends Command
         $progressBar->finish();
 
         $this->renderResults($scanResults, $output);
+
+        return $this->getStatus($scanResults);
+    }
+
+    private function getStatus($scanResults) {
+        foreach($scanResults as $result) {
+            if($result["type"] == Scanner::ERROR) {
+                return 1;
+            }
+        }
+        return 0;
     }
 
     /**
