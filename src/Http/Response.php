@@ -10,7 +10,7 @@ class Response
     private $header;
     private $request;
 
-    public function __construct($body, $header, $status, $duration = null, $request = null)
+    public function __construct($body, $header, $status, $duration = null, Request $request = null)
     {
         $this->body = $body;
         $this->header = $header;
