@@ -19,7 +19,7 @@ class Request
         $this->url = $url;
     }
 
-    public function  getUrl()
+    public function getUrl()
     {
         return $this->url;
     }

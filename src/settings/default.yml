@@ -14,7 +14,7 @@ rules:
     class: whm\Smoke\Rules\Html\ClosingHtmlTagRule
 
   _HtmlUnsecureContent:
-    class: whm\Smoke\Rules\Html\UnsecureContentRule
+    class: whm\Smoke\Rules\Html\InsecureContentRule
 
   _HttpDuration:
     class: whm\Smoke\Rules\Http\DurationRule
