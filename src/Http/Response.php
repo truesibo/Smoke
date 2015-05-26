@@ -55,13 +55,12 @@ class Response
     {
         $header = $this->getHeader(true);
 
-        // @fixme doesn't work: Content-Type:text/html; charset=UTF-8
+        preg_match('/(^|\n)content-type:(.*?)(;|\n|$)/im', $header, $matches);
 
-        preg_match('^content-type:(.*)^', $header, $matches);
-        if (!array_key_exists(1, $matches)) {
+        if (!array_key_exists(2, $matches)) {
             return false;
         } else {
-            return preg_replace('/[^A-Za-z0-9\-\/]/', '', $matches[1]);
+            return preg_replace('/[^A-Za-z0-9\-\/]/', '', $matches[2]);
         }
     }
 }

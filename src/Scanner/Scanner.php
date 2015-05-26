@@ -52,7 +52,10 @@ class Scanner
             foreach ($responses as $url => $response) {
                 $currentUri = new Uri($url);
 
-                $this->processHtmlContent($response->getBody(), $currentUri);
+                // only extract urls if the content type is text/html
+                if ($response->getContentType() === "text/html") {
+                    $this->processHtmlContent($response->getBody(), $currentUri);
+                }
 
                 $violation = $this->checkResponse($response);
                 $violation['parent'] = $this->pageContainer->getParent($currentUri);
