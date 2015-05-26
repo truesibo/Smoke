@@ -14,7 +14,7 @@ use whm\Smoke\Rules\ValidationFailedException;
 
 class ValidRule implements Rule
 {
-    CONST SCHEMA = "rss2_0.xsd";
+    const SCHEMA = "rss2_0.xsd";
 
     private function getSchema()
     {
@@ -26,7 +26,6 @@ class ValidRule implements Rule
         if ($response->getContentType() === "text/xml") {
             $body = $response->getBody();
             if (preg_match('/<rss/', $body)) {
-
                 libxml_clear_errors();
                 $dom = new \DOMDocument();
                 @$dom->loadXML($body);
