@@ -10,6 +10,16 @@ rules:
    parameters:
      maxSize: 100
 
+  _HtmlCssCount:
+   class: whm\Smoke\Rules\Html\CssFileCountRule
+   parameters:
+     maxCount: 10
+
+  _HtmlCssCount:
+   class: whm\Smoke\Rules\Html\JsFileCountRule
+   parameters:
+     maxCount: 10
+
   _HtmlClosingTag:
     class: whm\Smoke\Rules\Html\ClosingHtmlTagRule
 
