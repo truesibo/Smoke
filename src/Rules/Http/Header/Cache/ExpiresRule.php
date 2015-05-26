@@ -11,9 +11,12 @@ class ExpiresRule implements Rule
     public function validate(Response $response)
     {
         if (preg_match('^Expires:(.*)^', $response->getHeader(), $matches)) {
-            $expires = strtotime($matches[1]);
-            if ($expires < time()) {
-                throw new ValidationFailedException('expires in the past');
+            $expireRaw = preg_replace('/[^A-Za-z0-9\-\/,]/', '', $matches[1]);
+            if( $expireRaw != "" ) {
+                $expires = strtotime($matches[1]);
+                if ($expires < time()) {
+                    throw new ValidationFailedException('expires in the past');
+                }
             }
         }
     }
