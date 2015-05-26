@@ -4,6 +4,7 @@ namespace whm\Smoke\Config;
 
 use PhmLabs\Base\Www\Uri;
 use PhmLabs\Components\NamedParameters\NamedParameters;
+use whm\Smoke\Report\CliReport;
 use whm\Smoke\Rules\Html\ClosingHtmlTagRule;
 use whm\Smoke\Rules\Html\SizeRule;
 use whm\Smoke\Rules\Http\DurationRule;
@@ -159,5 +160,10 @@ class Configuration
         }
 
         return false;
+    }
+
+    public function getReporter()
+    {
+        return new CliReport();
     }
 }

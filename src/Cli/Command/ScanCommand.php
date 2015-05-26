@@ -11,10 +11,13 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 use whm\Smoke\Config\Configuration;
+use whm\Smoke\Report\CliReport;
 use whm\Smoke\Scanner\Scanner;
 
 class ScanCommand extends Command
 {
+
+
     /**
      * Defines what arguments and options are available for the user. Can be listed using
      * Smoke.phar analyse --help.
@@ -68,9 +71,18 @@ class ScanCommand extends Command
         $scanResults = $scanner->scan();
         $progressBar->finish();
 
-        $this->renderResults($scanResults, $output);
+        $this->renderResults($scanResults, $output, $config);
 
         return $this->getStatus($scanResults);
+    }
+
+    private function renderResults($results, $output, Configuration $config)
+    {
+        $reporter = $config->getReporter();
+        if(method_exists($reporter, "setOutput") ) {
+            $reporter->setOutput($output);
+        }
+        $reporter->render($results);
     }
 
     private function getStatus($scanResults)
@@ -120,38 +132,5 @@ class ScanCommand extends Command
         }
 
         return $config;
-    }
-
-    /**
-     * Renders the result of the test run on the console.
-     *
-     * @todo create reporter class
-     *
-     * @param $results
-     * @param OutputInterface $output
-     */
-    private function renderResults($results, OutputInterface $output)
-    {
-        $output->writeln("\n\n <comment>Passed tests:</comment> \n");
-
-        foreach ($results as $url => $result) {
-            if ($result['type'] === Scanner::PASSED) {
-                $output->writeln('   <info> ' . $url . ' </info> all tests passed');
-            }
-        }
-
-        $output->writeln("\n <comment>Failed tests:</comment> \n");
-
-        foreach ($results as $url => $result) {
-            if ($result['type'] === Scanner::ERROR) {
-                $output->writeln('   <error> ' . $url . ' </error> coming from ' . $result['parent']);
-                foreach ($result['messages'] as $ruleName => $message) {
-                    $output->writeln('    - ' . $message . " [rule: $ruleName]");
-                }
-                $output->writeln('');
-            }
-        }
-
-        $output->writeln('');
     }
 }
