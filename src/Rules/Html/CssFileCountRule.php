@@ -22,7 +22,6 @@ class CssFileCountRule implements Rule
     public function validate(Response $response)
     {
         if ($response->getContentType() === 'text/html') {
-
             $document = new Document($response->getBody());
             $cssFiles = $document->getExternalDependencies(array("css"));
 
