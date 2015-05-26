@@ -79,7 +79,7 @@ class ScanCommand extends Command
     private function renderResults($results, $output, Configuration $config)
     {
         $reporter = $config->getReporter();
-        if(method_exists($reporter, "setOutput") ) {
+        if (method_exists($reporter, "setOutput")) {
             $reporter->setOutput($output);
         }
         $reporter->render($results);
