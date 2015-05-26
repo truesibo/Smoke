@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This rule will find external ressources on a https transfered page that are insecure (http).
+ *
+ * @author Nils Langner <nils.langner@phmlabs.com>
+ * @inspiredBy Christian Haller
+ */
+
 namespace whm\Smoke\Rules\Html;
 
 use phmLabs\Base\Www\Html\Document;
