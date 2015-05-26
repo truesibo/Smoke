@@ -15,7 +15,7 @@ rules:
    parameters:
      maxCount: 10
 
-  _HtmlCssCount:
+  _HtmlJsCount:
    class: whm\Smoke\Rules\Html\JsFileCountRule
    parameters:
      maxCount: 10
