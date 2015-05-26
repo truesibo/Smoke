@@ -19,7 +19,7 @@ class ValidRule implements Rule
 
     public function validate(Response $response)
     {
-        if ($response->getContentType() == "application/json") {
+        if ($response->getContentType() === "application/json") {
             $result = json_decode($response->getBody());
             if ($result === null) {
                 throw new ValidationFailedException("The given JSON data can not be validated (last error: '" . $this->json_errors[json_last_error()] . "').");
