@@ -29,6 +29,8 @@ class Configuration
 
     private $rules = [];
 
+    private $reporter;
+
     public function __construct(Uri $uri, array $configArray, array $defaultSettings = array())
     {
         if (count($configArray) === 0) {
@@ -64,7 +66,24 @@ class Configuration
 
         $this->startUri = $uri;
 
+        $this->initReporter($configArray["reporter"]);
+
         $this->initRules($configArray['rules']);
+    }
+
+    private function initReporter($configArray)
+    {
+        $class = $configArray["class"];
+
+        $this->reporter = new $class;
+
+        if (method_exists($this->reporter, 'init')) {
+            if (array_key_exists('parameters', $configArray)) {
+                NamedParameters::call([$this->reporter, 'init'], $configArray['parameters']);
+            } else {
+                $this->reporter->init();
+            }
+        }
     }
 
     public function getStartUri()
@@ -164,6 +183,6 @@ class Configuration
 
     public function getReporter()
     {
-        return new CliReport();
+        return $this->reporter;
     }
 }

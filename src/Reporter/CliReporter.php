@@ -6,12 +6,12 @@
  * Time: 21:15
  */
 
-namespace whm\Smoke\Report;
+namespace whm\Smoke\Reporter;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use whm\Smoke\Scanner\Scanner;
 
-class CliReport
+class CliReporter
 {
     private $output;
 

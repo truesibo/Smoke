@@ -16,8 +16,6 @@ use whm\Smoke\Scanner\Scanner;
 
 class ScanCommand extends Command
 {
-
-
     /**
      * Defines what arguments and options are available for the user. Can be listed using
      * Smoke.phar analyse --help.
