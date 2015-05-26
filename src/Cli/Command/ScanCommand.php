@@ -96,7 +96,11 @@ class ScanCommand extends Command
     {
         $defaultConfigFile = __DIR__ . "/../../settings/default.yml";
         if ($configFile) {
-            $configArray = Yaml::parse(file_get_contents($configFile));
+            if(file_exists($configFile)) {
+                $configArray = Yaml::parse(file_get_contents($configFile));
+            }else{
+                throw new \RuntimeException("Config file was not found ('" .$configFile. "').");
+            }
         } else {
             $configArray = array();
         }
