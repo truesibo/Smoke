@@ -72,11 +72,11 @@ class Scanner
     {
         $messages = [];
 
-        foreach ($this->configuration->getRules() as $rule) {
+        foreach ($this->configuration->getRules() as $name => $rule) {
             try {
                 $rule->validate($response);
             } catch (ValidationFailedException $e) {
-                $messages[] = $e->getMessage();
+                $messages[$name] = $e->getMessage();
             }
         }
 

@@ -141,8 +141,8 @@ class ScanCommand extends Command
         foreach ($results as $url => $result) {
             if ($result['type'] === Scanner::ERROR) {
                 $output->writeln('   <error> ' . $url . ' </error> coming from ' . $result['parent']);
-                foreach ($result['messages'] as $message) {
-                    $output->writeln('    - ' . $message);
+                foreach ($result['messages'] as $ruleName => $message) {
+                    $output->writeln('    - ' . $message . " [rule: $ruleName]");
                 }
                 $output->writeln('');
             }

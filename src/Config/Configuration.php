@@ -124,7 +124,7 @@ class Configuration
                     $rule->init();
                 }
             }
-            $this->rules[] = $rule;
+            $this->rules[$name] = $rule;
         }
     }
 
