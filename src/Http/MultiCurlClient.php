@@ -28,7 +28,7 @@ class MultiCurlClient
             if ($result instanceof GuzzleHttp\Exception\ConnectException) {
                 $url = $result->getRequest()->getUrl();
                 // $responses[$url] = "";
-            } else if ($result instanceof GuzzleHttp\Exception\RequestException) {
+            } elseif ($result instanceof GuzzleHttp\Exception\RequestException) {
                 $url = $result->getRequest()->getUrl();
 
                 $responses[$url] = new Response($result->getResponse()->getBody()->getContents(),

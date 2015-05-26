@@ -34,7 +34,7 @@ return Symfony\CS\Config\Config::create()
         'ereg_to_preg',
         'concat_with_spaces',
         //'align_equals',
-        'align_double_arrow',
+        // 'align_double_arrow',
         'eof_ending'
     ])
     ->finder($finder)
