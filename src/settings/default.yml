@@ -40,3 +40,6 @@ rules:
     class: whm\Smoke\Rules\Image\SizeRule
     parameters:
       maxSize: 100
+
+  _JsonValid:
+    class: whm\Smoke\Rules\Json\ValidRule

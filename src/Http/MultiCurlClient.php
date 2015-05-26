@@ -7,6 +7,10 @@ use phmLabs\Base\Www\Uri;
 
 class MultiCurlClient
 {
+    /**
+     * @param array $uris
+     * @return array
+     */
     public static function request(array $uris)
     {
         $client = new GuzzleHttp\Client();
@@ -21,8 +25,12 @@ class MultiCurlClient
         $results = GuzzleHttp\Pool::batch($client, $requests);
 
         foreach ($results as $result) {
-            if ($result instanceof GuzzleHttp\Exception\RequestException) {
+            if ($result instanceof GuzzleHttp\Exception\ConnectException) {
                 $url = $result->getRequest()->getUrl();
+                // $responses[$url] = "";
+            } else if ($result instanceof GuzzleHttp\Exception\RequestException) {
+                $url = $result->getRequest()->getUrl();
+
                 $responses[$url] = new Response($result->getResponse()->getBody()->getContents(),
                     GuzzleHttp\Message\Response::getHeadersAsString($result->getResponse()),
                     $result->getResponse()->getStatusCode(),
