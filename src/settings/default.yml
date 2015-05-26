@@ -43,3 +43,6 @@ rules:
 
   _JsonValid:
     class: whm\Smoke\Rules\Json\ValidRule
+
+  _RssValid:
+    class: whm\Smoke\Rules\Xml\Rss\ValidRule
