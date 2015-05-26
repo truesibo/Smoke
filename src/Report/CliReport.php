@@ -45,5 +45,4 @@ class CliReport
 
         $this->output->writeln('');
     }
-
 }
