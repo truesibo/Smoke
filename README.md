@@ -83,7 +83,7 @@ Smoke.phar analyse --config_file="test.yml" test.com
 Each rule is defined in a simple PHP class that implements the `whm\Smoke\Rules\Rule` interface with a *validate* method. This is what *Rule* basically prescribes:
 
 ```php
-<`php
+<?php
 namespace whm\Smoke\Rules;
 
 use whm\Smoke\Http\Response;
