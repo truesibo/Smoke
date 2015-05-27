@@ -1,17 +1,9 @@
 {
   "name": "phmlabs/Smoke",
+
   "minimum-stability": "dev",
   "prefer-stable": true,
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/phmLabs/Base"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/phmLabs/Init"
-    }
-  ],
+
   "require": {
     "php": ">= 5.4.0",
     "symfony/yaml": "~2.2",
