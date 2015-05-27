@@ -78,5 +78,96 @@ To call Smoke with your config file, just issue on command line:
 Smoke.phar analyse --config_file="test.yml" test.com
 ```
 
+##How to write custom rules
+
+Each rule is defined in a simple PHP class that implements the `whm\Smoke\Rules\Rule` interface with a *validate* method. This is what *Rule* basically prescribes:
+
+```php
+<`php
+namespace whm\Smoke\Rules;
+
+use whm\Smoke\Http\Response;
+
+interface Rule
+{
+    public function validate(Response $response);
+}
+```
+
+###Write your own rule
+
+An optional ***init*** method for rule configuration may take a parameter which value is defined within your Smoke config file. Inside your ***validate*** method, use the *Response* object which is passed to it; throw a *ValidationFailedException* if your test fails. 
+
+
+```php
+<?php
+namespace MyApplication;
+
+use whm\Smoke\Http\Response;
+use whm\Smoke\Rules\Rule;
+use whm\Smoke\Rules\ValidationFailedException;
+
+class FooTest implements Rule
+{
+	private $search;
+	
+    public function init($foo = "foo")
+    {
+        $this->foo = $foo;
+    }
+    
+    public function validate(Response $response)
+    {
+        if ( stripos($response->getBody(), $this->foo ) === false) {
+            throw new ValidationFailedException( $this->foo . ' not found' );
+        }
+    }
+}
+```
+
+###Use with config file
+Within your Smoke config file, you may reference your rule like this:
+
+```
+rules:
+  MyFooTest:
+    class: MyApplication\FooTest
+    parameters:
+      foo: "bar"    
+```
+
+
+##Response object
+
+The *Response* object offers a bunch of useful shortcuts to things that happen 
+until a page request is finished:
+
+```php
+<?php
+use whm\Smoke\Http\Response;
+
+class BarTest implements Rule
+{
+    public function validate(Response $response)
+    {
+    	// HTTP status code, e.g. 400
+    	$status       = $response->getStatus();
+    	
+    	// S'th like "text/html"
+    	$content_type = $response->getContentType();
+    	
+    	// String, usually page HTML
+    	$body         = $response->getBody();
+    	
+    	// Integer (milliseconds)
+    	$duration     = $response->getDuration();
+    	
+    	// To be explained
+    	$request      = $response->getRequest();
+    	$header       = $response->getHeader()
+	}
+}
+```
+
 
 
