@@ -6,6 +6,9 @@ use whm\Smoke\Http\Response;
 use whm\Smoke\Rules\Rule;
 use whm\Smoke\Rules\ValidationFailedException;
 
+/**
+ * This rule checks if a given json file is valid.
+ */
 class ValidRule implements Rule
 {
     private $json_errors = array(

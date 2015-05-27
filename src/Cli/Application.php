@@ -7,6 +7,7 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
+use whm\Smoke\Cli\Command\ExplainCommand;
 use whm\Smoke\Cli\Command\ScanCommand;
 
 class Application extends \Symfony\Component\Console\Application
@@ -46,5 +47,6 @@ class Application extends \Symfony\Component\Console\Application
     private function registerCommands()
     {
         $this->add(new ScanCommand());
+        $this->add(new ExplainCommand());
     }
 }

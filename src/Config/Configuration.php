@@ -4,15 +4,7 @@ namespace whm\Smoke\Config;
 
 use PhmLabs\Base\Www\Uri;
 use PhmLabs\Components\NamedParameters\NamedParameters;
-use whm\Smoke\Report\CliReport;
-use whm\Smoke\Rules\Html\ClosingHtmlTagRule;
-use whm\Smoke\Rules\Html\SizeRule;
-use whm\Smoke\Rules\Http\DurationRule;
-use whm\Smoke\Rules\Http\Header\Cache\ExpiresRule;
-use whm\Smoke\Rules\Http\Header\Cache\MaxAgeRule;
-use whm\Smoke\Rules\Http\Header\Cache\PragmaNoCacheRule;
-use whm\Smoke\Rules\Http\Header\GZipRule;
-use whm\Smoke\Rules\Http\Header\SuccessStatusRule;
+use PhmLabs\Components\Init\Init;
 
 class Configuration
 {
@@ -66,24 +58,8 @@ class Configuration
 
         $this->startUri = $uri;
 
-        $this->initReporter($configArray["reporter"]);
-
-        $this->initRules($configArray['rules']);
-    }
-
-    private function initReporter($configArray)
-    {
-        $class = $configArray["class"];
-
-        $this->reporter = new $class;
-
-        if (method_exists($this->reporter, 'init')) {
-            if (array_key_exists('parameters', $configArray)) {
-                NamedParameters::call([$this->reporter, 'init'], $configArray['parameters']);
-            } else {
-                $this->reporter->init();
-            }
-        }
+        $this->reporter = Init::initialize($configArray["reporter"]);
+        $this->rules = Init::initializeAll($configArray["rules"]);
     }
 
     public function getStartUri()
@@ -124,28 +100,6 @@ class Configuration
     public function getWhitelist()
     {
         return $this->whitelist;
-    }
-
-    private function initRules($ruleConfig)
-    {
-        foreach ($ruleConfig as $name => $ruleElement) {
-            $class = $ruleElement['class'];
-
-            if (!class_exists($class)) {
-                throw new \RuntimeException("No rule with classname " . $class . " found");
-            }
-
-            $rule = new $class();
-
-            if (method_exists($rule, 'init')) {
-                if (array_key_exists('parameters', $ruleElement)) {
-                    NamedParameters::call([$rule, 'init'], $ruleElement['parameters']);
-                } else {
-                    $rule->init();
-                }
-            }
-            $this->rules[$name] = $rule;
-        }
     }
 
     public function getRules()

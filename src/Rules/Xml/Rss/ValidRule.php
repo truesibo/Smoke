@@ -12,6 +12,9 @@ use whm\Smoke\Http\Response;
 use whm\Smoke\Rules\Rule;
 use whm\Smoke\Rules\ValidationFailedException;
 
+/**
+ * This rule checks if a rss feed is valid.
+ */
 class ValidRule implements Rule
 {
     const SCHEMA = "rss2_0.xsd";

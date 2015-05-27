@@ -6,6 +6,9 @@ use whm\Smoke\Http\Response;
 use whm\Smoke\Rules\Rule;
 use whm\Smoke\Rules\ValidationFailedException;
 
+/**
+ * This rule checks if there are no "pragma: no-cache" or "cache-control: no-cache" header are set.
+ */
 class PragmaNoCacheRule implements Rule
 {
     public function validate(Response $response)
