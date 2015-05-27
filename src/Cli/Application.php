@@ -23,8 +23,8 @@ class Application extends \Symfony\Component\Console\Application
     {
         if (null === $output) {
             $styles['failure'] = new OutputFormatterStyle('red');
-            $formatter         = new OutputFormatter(null, $styles);
-            $output            = new ConsoleOutput(ConsoleOutput::VERBOSITY_NORMAL, null, $formatter);
+            $formatter = new OutputFormatter(null, $styles);
+            $output = new ConsoleOutput(ConsoleOutput::VERBOSITY_NORMAL, null, $formatter);
         }
 
         return parent::run($input, $output);

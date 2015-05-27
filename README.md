@@ -63,12 +63,12 @@ rules:
   HtmlSize:
     class: whm\Smoke\Rules\Html\SizeRule
     parameters:
-      - maxSize: 1
+      maxSize: 1
 
   ImageSize:
       class: whm\Smoke\Rules\Image\SizeRule
       parameters:
-        - maxSize: 1
+        maxSize: 1
 ```
 
 For more examples, see the *examples* directory. 

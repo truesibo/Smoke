@@ -21,9 +21,9 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
 
 return Symfony\CS\Config\Config::create()
     ->setUsingCache(true)
-    ->level(Symfony\CS\FixerInterface::SYMFONY_LEVEL)
+    //->level(Symfony\CS\FixerInterface::SYMFONY_LEVEL)
     ->fixers([
-        'short_array_syntax',
+        // 'short_array_syntax',
         'ordered_use',
         'strict',
         'strict_param',
@@ -33,8 +33,9 @@ return Symfony\CS\Config\Config::create()
         //'header_comment',
         'ereg_to_preg',
         'concat_with_spaces',
-        'align_equals',
-        'align_double_arrow',
+        //'align_equals',
+        // 'align_double_arrow',
+        'eof_ending'
     ])
     ->finder($finder)
 ;

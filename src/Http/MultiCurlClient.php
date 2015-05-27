@@ -3,28 +3,47 @@
 namespace whm\Smoke\Http;
 
 use GuzzleHttp;
+use phmLabs\Base\Www\Uri;
 
 class MultiCurlClient
 {
+    /**
+     * @param array $uris
+     * @return array
+     */
     public static function request(array $uris)
     {
         $client = new GuzzleHttp\Client();
 
         $responses = [];
-        $requests  = [];
+        $requests = [];
 
         foreach ($uris as $uri) {
-            $requests[] = $client->createRequest('GET', $uri);
+            $requests[] = $client->createRequest('GET', $uri, ['headers' => ['Accept-Encoding' => 'gzip'], 'verify' => false]);
         }
 
         $results = GuzzleHttp\Pool::batch($client, $requests);
 
         foreach ($results as $result) {
             if ($result instanceof GuzzleHttp\Exception\ConnectException) {
-                $responses[$result->getRequest()->getUrl()] = new Response($result->getResponse()->getBody()->getContents(), GuzzleHttp\Message\Response::getHeadersAsString($result->getResponse()), $result->getResponse()->getStatusCode());
+                $url = $result->getRequest()->getUrl();
+                // $responses[$url] = "";
+            } elseif ($result instanceof GuzzleHttp\Exception\RequestException) {
+                $url = $result->getRequest()->getUrl();
+
+                $responses[$url] = new Response($result->getResponse()->getBody()->getContents(),
+                    GuzzleHttp\Message\Response::getHeadersAsString($result->getResponse()),
+                    $result->getResponse()->getStatusCode(),
+                    null,
+                    new Request(new Uri($url)));
             } else {
                 /* @var GuzzleHttp\Message\Response $result */
-                $responses[$result->getEffectiveUrl()] = new Response($result->getBody()->getContents(), GuzzleHttp\Message\Response::getHeadersAsString($result), $result->getStatusCode());
+                $url = $result->getEffectiveUrl();
+                $responses[$url] = new Response($result->getBody()->getContents(),
+                    GuzzleHttp\Message\Response::getHeadersAsString($result),
+                    $result->getStatusCode(),
+                    null,
+                    new Request(new Uri($url)));
             }
         }
 
