@@ -61,7 +61,7 @@ class ExplainCommand extends Command
                 $output->writeln("    parameter:");
 
                 foreach ($info["parameters"] as $parameter) {
-                    $output->writeln("      " . $parameter["name"] . ': ' . $parameter["description"] . " (default: " . $parameter["default"]. ")");
+                    $output->writeln("      " . $parameter["name"] . ': ' . $parameter["description"] . " (default: " . $parameter["default"] . ")");
                 }
             }
 

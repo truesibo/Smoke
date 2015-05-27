@@ -3,7 +3,6 @@
 namespace whm\Smoke\Config;
 
 use PhmLabs\Base\Www\Uri;
-use PhmLabs\Components\NamedParameters\NamedParameters;
 use PhmLabs\Components\Init\Init;
 
 class Configuration
