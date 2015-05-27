@@ -66,7 +66,6 @@ class ExplainCommand extends Command
             }
 
             $output->writeln("");
-
         }
     }
 
