@@ -17,7 +17,7 @@ class SizeRule implements Rule
     /**
      * @param int $maxSize The maximum size of a html file in kilobytes.
      */
-    public function init($maxSize = 100)
+    public function init($maxSize = 200)
     {
         $this->maxSize = $maxSize;
     }
@@ -27,7 +27,7 @@ class SizeRule implements Rule
         if ($response->getContentType() === 'text/html') {
             $size = strlen($response->getBody()) / 1000;
             if ($size > $this->maxSize) {
-                throw new ValidationFailedException('The size of the file is too big (' . $size . ' KB)');
+                throw new ValidationFailedException('The size of this html file is too big (' . $size . ' KB)');
             }
         }
     }
