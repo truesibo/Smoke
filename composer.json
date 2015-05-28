@@ -1,5 +1,7 @@
 {
-  "name": "phmlabs/Smoke",
+  "name": "phmlabs/smoke",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "repositories": [
     {
       "type": "vcs",
@@ -7,22 +9,23 @@
     },
     {
       "type": "vcs",
-      "url": "https://github.com/phmLabs/NamedParameters"
+      "url": "https://github.com/phmLabs/Init"
     }
   ],
   "require": {
+    "php": ">= 5.4.0",
     "symfony/yaml": "~2.2",
-    "symfony/console": "~2.2"
-  },
-
-  "require-dev": {
+    "symfony/console": "~2.2",
+    "guzzlehttp/guzzle": "^5.3",
     "phmlabs/base": "dev-master",
-    "phmlabs/namedparameters": "dev-master"
+    "phmlabs/init": "dev-master"
   },
-
+  "require-dev": {
+    "fabpot/php-cs-fixer": "dev-master"
+  },
   "autoload": {
-    "psr-0": {
-      "whm": "src/"
+    "psr-4": {
+      "whm\\Smoke\\": "src/"
     }
   },
   "bin": [

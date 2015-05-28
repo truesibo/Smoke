@@ -1,0 +1,61 @@
+whitelist:
+ - ^^
+
+options:
+  scanForeignDomains: false
+
+reporter:
+  class: whm\Smoke\Reporter\CliReporter
+
+rules:
+  _HtmlSize:
+   class: whm\Smoke\Rules\Html\SizeRule
+   parameters:
+     maxSize: 100
+
+  _HtmlCssCount:
+   class: whm\Smoke\Rules\Html\CssFileCountRule
+   parameters:
+     maxCount: 10
+
+  _HtmlJsCount:
+   class: whm\Smoke\Rules\Html\JsFileCountRule
+   parameters:
+     maxCount: 10
+
+  _HtmlClosingTag:
+    class: whm\Smoke\Rules\Html\ClosingHtmlTagRule
+
+  _HtmlUnsecureContent:
+    class: whm\Smoke\Rules\Html\InsecureContentRule
+
+  _HttpDuration:
+    class: whm\Smoke\Rules\Http\DurationRule
+    parameters:
+      maxDuration: 1000
+
+  _HttpHeaderGzip:
+    class: whm\Smoke\Rules\Http\Header\GZipRule
+
+  _HttpHeaderSuccessStatus:
+    class: whm\Smoke\Rules\Http\Header\SuccessStatusRule
+
+  _HttpHeaderCacheExpires:
+    class: whm\Smoke\Rules\Http\Header\Cache\ExpiresRule
+
+  _HttpHeaderCacheMaxAge:
+    class: whm\Smoke\Rules\Http\Header\Cache\MaxAgeRule
+
+  _HttpHeaderCacheNoCache:
+    class: whm\Smoke\Rules\Http\Header\Cache\PragmaNoCacheRule
+
+  _ImageSize:
+    class: whm\Smoke\Rules\Image\SizeRule
+    parameters:
+      maxSize: 100
+
+  _JsonValid:
+    class: whm\Smoke\Rules\Json\ValidRule
+
+  _RssValid:
+    class: whm\Smoke\Rules\Xml\Rss\ValidRule

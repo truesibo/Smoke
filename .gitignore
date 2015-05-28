@@ -5,3 +5,7 @@ box.phar
 
 composer.phar
 composer.lock
+
+example/stern.yml
+
+.php_cs.cache
