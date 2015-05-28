@@ -11,11 +11,11 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
         $response = new \whm\Smoke\Http\Response($testBody, $testHeader, $testStatus, $testDuration);
 
-        $this->assertEquals($testBody,      $response->getBody());
-        $this->assertEquals($testHeader,    $response->getHeader());
-        $this->assertEquals("testheader",   $response->getHeader(true));
-        $this->assertEquals($testStatus,    $response->getStatus());
-        $this->assertEquals($testDuration,  $response->getDuration());
+        $this->assertEquals($testBody, $response->getBody());
+        $this->assertEquals($testHeader, $response->getHeader());
+        $this->assertEquals("testheader", $response->getHeader(true));
+        $this->assertEquals($testStatus, $response->getStatus());
+        $this->assertEquals($testDuration, $response->getDuration());
 
         $this->assertFalse($response->getContentType());
     }
@@ -30,5 +30,4 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('application/xml', $response->getContentType());
     }
-
 }
