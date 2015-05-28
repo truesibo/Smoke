@@ -6,23 +6,30 @@ use phmLabs\Base\Www\Html\Document;
 use phmLabs\Base\Www\Uri;
 use Symfony\Component\Console\Helper\ProgressBar;
 use whm\Smoke\Config\Configuration;
+use whm\Smoke\Console\NullProgressBar;
 use whm\Smoke\Http\MultiCurlClient;
 use whm\Smoke\Rules\ValidationFailedException;
 
 class Scanner
 {
-    const ERROR = 'ERROR';
-    const PASSED = 'PASSED';
+    const ERROR = 'error';
+    const PASSED = 'passed';
 
     private $progressBar;
     private $configuration;
 
-    public function __construct(Configuration $config, ProgressBar $progressBar)
+    public function __construct(Configuration $config, ProgressBar $progressBar = null)
     {
         $this->pageContainer = new PageContainer($config->getContainerSize());
         $this->pageContainer->push($config->getStartUri(), $config->getStartUri());
-        $this->progressBar = $progressBar;
+
         $this->configuration = $config;
+
+        if( is_null($progressBar)) {
+            $this->progressBar = new NullProgressBar();
+        }else{
+            $this->progressBar = $progressBar;
+        }
     }
 
     private function processHtmlContent($htmlContent, Uri $currentUri)
@@ -83,7 +90,7 @@ class Scanner
         if ($messages) {
             $violation = array('messages' => $messages, 'type' => self::ERROR);
         } else {
-            $violation = array('type' => self::PASSED);
+            $violation = array('messages' => array(), 'type' => self::PASSED);
         }
 
         return $violation;

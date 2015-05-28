@@ -11,7 +11,7 @@ rules:
   _HtmlSize:
    class: whm\Smoke\Rules\Html\SizeRule
    parameters:
-     maxSize: 100
+     maxSize: 200
 
   _HtmlCssCount:
    class: whm\Smoke\Rules\Html\CssFileCountRule

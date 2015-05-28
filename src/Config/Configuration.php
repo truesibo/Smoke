@@ -4,6 +4,7 @@ namespace whm\Smoke\Config;
 
 use PhmLabs\Base\Www\Uri;
 use PhmLabs\Components\Init\Init;
+use Symfony\Component\Yaml\Yaml;
 
 class Configuration
 {
@@ -21,6 +22,8 @@ class Configuration
     private $rules = [];
 
     private $reporter;
+
+    const DEFAULT_SETTINGS = "default.yml";
 
     public function __construct(Uri $uri, array $configArray, array $defaultSettings = array())
     {
@@ -59,6 +62,12 @@ class Configuration
 
         $this->reporter = Init::initialize($configArray["reporter"]);
         $this->rules = Init::initializeAll($configArray["rules"]);
+    }
+
+    public static function getDefaultConfig(Uri $uri)
+    {
+        $defaultSettings = Yaml::parse(file_get_contents(__DIR__ . "/../settings/" . self::DEFAULT_SETTINGS));
+        return new self($uri, $defaultSettings);
     }
 
     public function getStartUri()
