@@ -6,13 +6,17 @@ use whm\Smoke\Http\Response;
 use whm\Smoke\Rules\Rule;
 use whm\Smoke\Rules\ValidationFailedException;
 
+/**
+ * This rule uses jshint to validate js files. It will find js syntax errors.
+ */
 class SyntaxRule implements Rule
 {
     private $jsHintExecutable;
     private $tmpDir;
 
     /**
-     * @param $jsHintExecutable
+     * @param $jsHintExecutable string The path to the jshint executable
+     * @param $tmpDir string The directory the temporary js file should be stored
      */
     public function init($jsHintExecutable = "", $tmpDir = "/tmp")
     {
@@ -29,6 +33,8 @@ class SyntaxRule implements Rule
 
             $command = $this->jsHintExecutable . " --config " . $conf . " --verbose " . $filename . " | grep -E E[0-9]+.$";
             $validationResult = shell_exec($command);
+
+            unlink($filename);
 
             if (!is_null($validationResult)) {
                 $errorMsg = str_replace($filename . ":", "", $validationResult);
