@@ -2,6 +2,7 @@
 
 - License: MIT
 - Build: [![Build Status](https://secure.travis-ci.org/phmLabs/Smoke.png)](http://travis-ci.org/phmLabs/Smoke)
+- Smoke Online: [http://smoke.phmlabs.com/](http://smoke.phmlabs.com/)
 - Homepage: [http://www.thewebhatesme.com/](http://www.thewebhatesme.com/)
 
 
