@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: langn
- * Date: 29.05.15
- * Time: 21:20
- */
 
 namespace whm\Smoke\Rules\Js;
-
 
 use whm\Smoke\Http\Response;
 use whm\Smoke\Rules\Rule;
@@ -37,11 +30,10 @@ class SyntaxRule implements Rule
             $command = $this->jsHintExecutable . " --config " . $conf . " --verbose " . $filename . " | grep -E E[0-9]+.$";
             $validationResult = shell_exec($command);
 
-            if( !is_null($validationResult)) {
+            if (!is_null($validationResult)) {
                 $errorMsg = str_replace($filename . ":", "", $validationResult);
                 throw new ValidationFailedException("JavaScript error found: " . $errorMsg);
             }
         }
     }
-
 }
