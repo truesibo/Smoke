@@ -19,7 +19,12 @@ class MultiCurlClient
         $requests = [];
 
         foreach ($uris as $uri) {
-            $requests[] = $client->createRequest('GET', $uri, ['headers' => ['Accept-Encoding' => 'gzip'], 'verify' => false]);
+            $requests[] = $client->createRequest('GET', $uri,
+                ['timeout' => 10,
+                    'connect_timeout' => 1.5,
+                    'headers' => ['Accept-Encoding' => 'gzip'],
+                    'verify' => false]
+            );
         }
 
         $results = GuzzleHttp\Pool::batch($client, $requests);

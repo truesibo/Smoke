@@ -66,6 +66,7 @@ class Scanner
 
                 $violation = $this->checkResponse($response);
                 $violation['parent'] = $this->pageContainer->getParent($currentUri);
+                $violation['contentType'] = $response->getContentType();
                 $violations[$url] = $violation;
 
                 $this->progressBar->advance();

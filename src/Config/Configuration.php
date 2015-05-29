@@ -25,8 +25,12 @@ class Configuration
 
     const DEFAULT_SETTINGS = "default.yml";
 
-    public function __construct(Uri $uri, array $configArray, array $defaultSettings = array())
+    public function __construct(Uri $uri, array $configArray, array $defaultSettings = null)
     {
+        if ($defaultSettings === null) {
+            $defaultSettings = Yaml::parse(file_get_contents(__DIR__ . "/../settings/" . self::DEFAULT_SETTINGS));
+        }
+
         if (count($configArray) === 0) {
             $configArray = $defaultSettings;
         }
