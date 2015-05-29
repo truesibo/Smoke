@@ -8,8 +8,10 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         $testHeader = 'Test Header ';
         $testStatus = 750;
         $testDuration = 300;
+        $testUri = new \phmLabs\Base\Www\Uri('http://smoke.phmlabs.com');
+        $testRequest = new \whm\Smoke\Http\Request($testUri);
 
-        $response = new \whm\Smoke\Http\Response($testBody, $testHeader, $testStatus, $testDuration);
+        $response = new \whm\Smoke\Http\Response($testBody, $testHeader, $testStatus, $testDuration, $testRequest);
 
         $this->assertEquals($testBody, $response->getBody());
         $this->assertEquals($testHeader, $response->getHeader());
@@ -18,6 +20,8 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($testDuration, $response->getDuration());
 
         $this->assertFalse($response->getContentType());
+        $this->assertTrue($response->getRequest() instanceof \whm\Smoke\Http\Request);
+        $this->assertEquals($testRequest, $response->getRequest());
     }
 
     public function testContentTypeHeader()
