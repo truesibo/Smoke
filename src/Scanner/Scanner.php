@@ -25,9 +25,9 @@ class Scanner
 
         $this->configuration = $config;
 
-        if( is_null($progressBar)) {
+        if (is_null($progressBar)) {
             $this->progressBar = new NullProgressBar();
-        }else{
+        } else {
             $this->progressBar = $progressBar;
         }
     }
