@@ -7,7 +7,9 @@ use phmLabs\Base\Www\Uri;
 use Symfony\Component\Console\Helper\ProgressBar;
 use whm\Smoke\Config\Configuration;
 use whm\Smoke\Console\NullProgressBar;
+use whm\Smoke\Http\HttpClient;
 use whm\Smoke\Http\MultiCurlClient;
+use whm\Smoke\Http\Response;
 use whm\Smoke\Rules\ValidationFailedException;
 
 class Scanner
@@ -17,19 +19,18 @@ class Scanner
 
     private $progressBar;
     private $configuration;
+    /**
+     * @var HttpClient
+     */
+    private $client;
 
-    public function __construct(Configuration $config, ProgressBar $progressBar = null)
+    public function __construct(Configuration $config, HttpClient $client, ProgressBar $progressBar = null)
     {
         $this->pageContainer = new PageContainer($config->getContainerSize());
         $this->pageContainer->push($config->getStartUri(), $config->getStartUri());
-
+        $this->client = $client;
         $this->configuration = $config;
-
-        if (is_null($progressBar)) {
-            $this->progressBar = new NullProgressBar();
-        } else {
-            $this->progressBar = $progressBar;
-        }
+        $this->progressBar = $progressBar ?: new NullProgressBar();
     }
 
     private function processHtmlContent($htmlContent, Uri $currentUri)
@@ -54,20 +55,20 @@ class Scanner
 
         do {
             $urls = $this->pageContainer->pop($this->configuration->getParallelRequestCount());
-            $responses = MultiCurlClient::request($urls);
+            $responses = $this->client->request($urls);
 
-            foreach ($responses as $url => $response) {
-                $currentUri = new Uri($url);
+            foreach ($responses as $response) {
+                $currentUri = new Uri((string)$response->getParameters()['request']->getUri());
 
                 // only extract urls if the content type is text/html
-                if ($response->getContentType() === "text/html") {
+                if ('text/html' === $response->getContentType()) {
                     $this->processHtmlContent($response->getBody(), $currentUri);
                 }
 
                 $violation = $this->checkResponse($response);
                 $violation['parent'] = $this->pageContainer->getParent($currentUri);
-                $violation['contentType'] = $response->getContentType();
-                $violations[$url] = $violation;
+                $violation['contentType'] = $response->getHeader('Content-Type')[0];
+                $violations[$response->getUri()] = $violation;
 
                 $this->progressBar->advance();
             }
@@ -76,7 +77,7 @@ class Scanner
         return $violations;
     }
 
-    private function checkResponse($response)
+    private function checkResponse(Response $response)
     {
         $messages = [];
 

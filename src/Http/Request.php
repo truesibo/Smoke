@@ -8,19 +8,8 @@
 
 namespace whm\Smoke\Http;
 
-use phmLabs\Base\Www\Uri;
 
-class Request
+class Request extends \Ivory\HttpAdapter\Message\Request
 {
-    private $url;
 
-    public function __construct(Uri $url)
-    {
-        $this->url = $url;
-    }
-
-    public function getUrl()
-    {
-        return $this->url;
-    }
 }

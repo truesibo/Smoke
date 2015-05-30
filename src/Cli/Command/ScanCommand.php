@@ -2,6 +2,7 @@
 
 namespace whm\Smoke\Cli\Command;
 
+use Ivory\HttpAdapter\HttpAdapterFactory;
 use phmLabs\Base\Www\Uri;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -11,6 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 use whm\Smoke\Config\Configuration;
+use whm\Smoke\Http\HttpClient;
 use whm\Smoke\Scanner\Scanner;
 
 class ScanCommand extends Command
@@ -64,7 +66,7 @@ class ScanCommand extends Command
 
         $progressBar->start();
 
-        $scanner = new Scanner($config, $progressBar);
+        $scanner = new Scanner($config, new HttpClient(HttpAdapterFactory::guess()), $progressBar);
         $scanResults = $scanner->scan();
         $progressBar->finish();
 

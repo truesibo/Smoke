@@ -5,6 +5,7 @@ namespace whm\Smoke\Config;
 use PhmLabs\Base\Www\Uri;
 use PhmLabs\Components\Init\Init;
 use Symfony\Component\Yaml\Yaml;
+use whm\Smoke\Rules\Rule;
 
 class Configuration
 {
@@ -114,6 +115,9 @@ class Configuration
         return $this->whitelist;
     }
 
+    /**
+     * @return Rule[]
+     */
     public function getRules()
     {
         return $this->rules;

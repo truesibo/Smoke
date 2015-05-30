@@ -22,7 +22,7 @@ class InsecureContentRule implements Rule
     public function validate(Response $response)
     {
         $request = $response->getRequest();
-        if ($request->getUrl()->isSecure()) {
+        if ('https' === $request->getUri()->getScheme()) {
             $htmlDocument = new Document($response->getBody());
             $ressources = $htmlDocument->getExternalDependencies();
 
