@@ -2,8 +2,6 @@
 
 namespace whm\Smoke\Http;
 
-use Ivory\HttpAdapter\Message\Request;
-
 class Response extends \Ivory\HttpAdapter\Message\Response
 {
     private $contents;
