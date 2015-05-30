@@ -22,7 +22,7 @@ class Response extends \Ivory\HttpAdapter\Message\Response
 
     public function getUri()
     {
-        return (string)$this->getParameters()['request']->getUri();
+        return (string) $this->getParameters()['request']->getUri();
     }
 
     /**

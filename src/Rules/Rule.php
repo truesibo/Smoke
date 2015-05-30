@@ -2,7 +2,6 @@
 
 namespace whm\Smoke\Rules;
 
-
 use whm\Smoke\Http\Response;
 
 interface Rule

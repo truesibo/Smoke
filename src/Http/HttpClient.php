@@ -1,6 +1,5 @@
 <?php
 
-
 namespace whm\Smoke\Http;
 
 use Ivory\HttpAdapter\HttpAdapterInterface;
@@ -8,7 +7,7 @@ use Ivory\HttpAdapter\Message\Request;
 use Ivory\HttpAdapter\MultiHttpAdapterException;
 
 /**
- * HttpClient
+ * HttpClient.
  *
  * @author Robert Schönthal <robert.schoenthal@gmail.com>
  */
@@ -27,6 +26,7 @@ class HttpClient
 
     /**
      * @param array $uris
+     *
      * @return Response[]
      */
     public function request(array $uris)
@@ -34,7 +34,7 @@ class HttpClient
         $requests = [];
 
         foreach ($uris as $uri) {
-            $requests[] = new Request((string)$uri, 'GET', 'php://memory', ['Accept-Encoding' => 'gzip'], []);
+            $requests[] = new Request((string) $uri, 'GET', 'php://memory', ['Accept-Encoding' => 'gzip'], []);
 //            $requests[] = $client->createRequest('GET', $uri,
 //                ['timeout' => 10,
 //                 'connect_timeout' => 1.5,

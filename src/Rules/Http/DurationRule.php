@@ -9,8 +9,6 @@ use whm\Smoke\Rules\ValidationFailedException;
 /**
  * This rule can validate if a http request takes longer than a given max duration.
  * A website that is slower than one second is concidered as slow.
- *
- * @package whm\Smoke\Rules\Http
  */
 class DurationRule implements Rule
 {

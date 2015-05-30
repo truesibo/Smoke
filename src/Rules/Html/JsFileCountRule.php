@@ -30,10 +30,10 @@ class JsFileCountRule implements Rule
     {
         if ($response->getContentType() === 'text/html') {
             $document = new Document($response->getBody());
-            $jsFiles = $document->getExternalDependencies(array("js"));
+            $jsFiles = $document->getExternalDependencies(array('js'));
 
             if (count($jsFiles) > $this->maxCount) {
-                throw new ValidationFailedException("Too many (" . count($jsFiles) . ") javascript files were found.");
+                throw new ValidationFailedException('Too many (' . count($jsFiles) . ') javascript files were found.');
             }
         }
     }

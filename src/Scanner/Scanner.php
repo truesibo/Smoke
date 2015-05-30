@@ -8,7 +8,6 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use whm\Smoke\Config\Configuration;
 use whm\Smoke\Console\NullProgressBar;
 use whm\Smoke\Http\HttpClient;
-use whm\Smoke\Http\MultiCurlClient;
 use whm\Smoke\Http\Response;
 use whm\Smoke\Rules\ValidationFailedException;
 
@@ -58,7 +57,7 @@ class Scanner
             $responses = $this->client->request($urls);
 
             foreach ($responses as $response) {
-                $currentUri = new Uri((string)$response->getParameters()['request']->getUri());
+                $currentUri = new Uri((string) $response->getParameters()['request']->getUri());
 
                 // only extract urls if the content type is text/html
                 if ('text/html' === $response->getContentType()) {

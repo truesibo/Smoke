@@ -30,10 +30,10 @@ class CssFileCountRule implements Rule
     {
         if ($response->getContentType() === 'text/html') {
             $document = new Document($response->getBody());
-            $cssFiles = $document->getExternalDependencies(array("css"));
+            $cssFiles = $document->getExternalDependencies(array('css'));
 
             if (count($cssFiles) > $this->maxCount) {
-                throw new ValidationFailedException("Too many (" . count($cssFiles) . ") css files were found.");
+                throw new ValidationFailedException('Too many (' . count($cssFiles) . ') css files were found.');
             }
         }
     }

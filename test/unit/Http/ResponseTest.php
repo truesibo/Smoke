@@ -15,7 +15,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($testBody, $response->getBody());
         $this->assertEquals($testHeader, $response->getHeader());
-        $this->assertEquals("testheader", $response->getHeader(true));
+        $this->assertEquals('testheader', $response->getHeader(true));
         $this->assertEquals($testStatus, $response->getStatus());
         $this->assertEquals($testDuration, $response->getDuration());
 

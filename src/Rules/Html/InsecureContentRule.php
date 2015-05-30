@@ -28,7 +28,7 @@ class InsecureContentRule implements Rule
 
             foreach ($ressources as $ressource) {
                 if (!$ressource->isSecure()) {
-                    throw new ValidationFailedException("At least one dependency was found on a secure url, that was transfered insecure (" . $ressource->toString() . ")");
+                    throw new ValidationFailedException('At least one dependency was found on a secure url, that was transfered insecure (' . $ressource->toString() . ')');
                 }
             }
         }

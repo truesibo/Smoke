@@ -40,7 +40,7 @@ class ScanCommand extends Command
     /**
      * Runs the analysis of the given website with all given parameters.
      *
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -78,7 +78,7 @@ class ScanCommand extends Command
     private function renderResults($results, $output, Configuration $config)
     {
         $reporter = $config->getReporter();
-        if (method_exists($reporter, "setOutput")) {
+        if (method_exists($reporter, 'setOutput')) {
             $reporter->setOutput($output);
         }
         $reporter->render($results);
@@ -87,10 +87,11 @@ class ScanCommand extends Command
     private function getStatus($scanResults)
     {
         foreach ($scanResults as $result) {
-            if ($result["type"] === Scanner::ERROR) {
+            if ($result['type'] === Scanner::ERROR) {
                 return 1;
             }
         }
+
         return 0;
     }
 
@@ -105,7 +106,7 @@ class ScanCommand extends Command
      */
     private function initConfiguration($configFile, $loadForeign, $num_urls, $parallel_requests, Uri $uri)
     {
-        $defaultConfigFile = __DIR__ . "/../../settings/default.yml";
+        $defaultConfigFile = __DIR__ . '/../../settings/default.yml';
         if ($configFile) {
             if (file_exists($configFile)) {
                 $configArray = Yaml::parse(file_get_contents($configFile));

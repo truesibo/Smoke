@@ -24,12 +24,12 @@ class Configuration
 
     private $reporter;
 
-    const DEFAULT_SETTINGS = "default.yml";
+    const DEFAULT_SETTINGS = 'default.yml';
 
     public function __construct(Uri $uri, array $configArray, array $defaultSettings = null)
     {
         if ($defaultSettings === null) {
-            $defaultSettings = Yaml::parse(file_get_contents(__DIR__ . "/../settings/" . self::DEFAULT_SETTINGS));
+            $defaultSettings = Yaml::parse(file_get_contents(__DIR__ . '/../settings/' . self::DEFAULT_SETTINGS));
         }
 
         if (count($configArray) === 0) {
@@ -37,13 +37,13 @@ class Configuration
         }
 
         if (array_key_exists('options', $configArray)) {
-            if (array_key_exists('extendDefault', $configArray["options"])) {
-                if ($configArray["options"]["extendDefault"] === true) {
+            if (array_key_exists('extendDefault', $configArray['options'])) {
+                if ($configArray['options']['extendDefault'] === true) {
                     $configArray = array_replace_recursive($defaultSettings, $configArray);
                 }
             }
             if (array_key_exists('scanForeignDomains', $configArray['options'])) {
-                $this->scanForeignDomains = $configArray["options"]["scanForeignDomains"];
+                $this->scanForeignDomains = $configArray['options']['scanForeignDomains'];
             }
         }
 
@@ -65,13 +65,14 @@ class Configuration
 
         $this->startUri = $uri;
 
-        $this->reporter = Init::initialize($configArray["reporter"]);
-        $this->rules = Init::initializeAll($configArray["rules"]);
+        $this->reporter = Init::initialize($configArray['reporter']);
+        $this->rules = Init::initializeAll($configArray['rules']);
     }
 
     public static function getDefaultConfig(Uri $uri)
     {
-        $defaultSettings = Yaml::parse(file_get_contents(__DIR__ . "/../settings/" . self::DEFAULT_SETTINGS));
+        $defaultSettings = Yaml::parse(file_get_contents(__DIR__ . '/../settings/' . self::DEFAULT_SETTINGS));
+
         return new self($uri, $defaultSettings);
     }
 

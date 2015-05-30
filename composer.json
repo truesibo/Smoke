@@ -20,6 +20,9 @@
       "whm\\Smoke\\": "src/"
     }
   },
+  "scripts" : {
+        "cs" : "vendor/bin/php-cs-fixer fix $1"
+  },
   "bin": [
     "bin/Smoke.php"
   ]

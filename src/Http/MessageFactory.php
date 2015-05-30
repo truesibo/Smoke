@@ -1,6 +1,5 @@
 <?php
 
-
 namespace whm\Smoke\Http;
 
 use Ivory\HttpAdapter\Message\RequestInterface;
@@ -8,9 +7,8 @@ use Ivory\HttpAdapter\Normalizer\HeadersNormalizer;
 use Phly\Http\Stream;
 use Psr\Http\Message\StreamInterface;
 
-
 /**
- * MessageFactory
+ * MessageFactory.
  *
  * @author Robert Schönthal <robert.schoenthal@gmail.com>
  */
@@ -64,7 +62,7 @@ class MessageFactory extends \Ivory\HttpAdapter\Message\MessageFactory
     private function createUri($uri)
     {
         if ($this->hasBaseUri() && (stripos($uri, $baseUri = (string) $this->getBaseUri()) === false)) {
-            return $baseUri.$uri;
+            return $baseUri . $uri;
         }
 
         return $uri;
