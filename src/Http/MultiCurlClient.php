@@ -31,11 +31,11 @@ class MultiCurlClient
 
         foreach ($results as $result) {
             if ($result instanceof GuzzleHttp\Exception\ConnectException) {
-                $url = $result->getRequest()->getUrl();
-                // $responses[$url] = "";
+                // @todo handle this error
+            } elseif ($result instanceof GuzzleHttp\Exception\TooManyRedirectsException) {
+                // @todo handle this error
             } elseif ($result instanceof GuzzleHttp\Exception\RequestException) {
                 $url = $result->getRequest()->getUrl();
-
                 $responses[$url] = new Response($result->getResponse()->getBody()->getContents(),
                     GuzzleHttp\Message\Response::getHeadersAsString($result->getResponse()),
                     $result->getResponse()->getStatusCode(),
