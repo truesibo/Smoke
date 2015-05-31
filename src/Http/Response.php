@@ -13,7 +13,7 @@ class Response extends \Ivory\HttpAdapter\Message\Response
 
     public function getContentType()
     {
-        $exploded = explode(';', $this->hasHeader('Content-Type') ? $this->getHeader('Content-Type')[0] : []);
+        $exploded = explode(';', $this->hasHeader('Content-Type') ? $this->getHeader('Content-Type')[0] : null);
 
         return array_shift($exploded);
     }

@@ -17,7 +17,7 @@ class PragmaNoCacheRule implements Rule
             throw new ValidationFailedException('pragma:no-cache was found');
         }
 
-        if ($response->hasHeader('Cache-Control') && 'no-cache' === $response->getHeader('Cache-Control')[0]) {
+        if ($response->hasHeader('Cache-Control') && false !== strpos($response->getHeader('Cache-Control')[0], 'no-cache')) {
             throw new ValidationFailedException('cache-control:no-cache was found');
         }
     }

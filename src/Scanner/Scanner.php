@@ -57,7 +57,7 @@ class Scanner
             $responses = $this->client->request($urls);
 
             foreach ($responses as $response) {
-                $currentUri = new Uri((string) $response->getParameters()['request']->getUri());
+                $currentUri = new Uri((string) $response->getUri());
 
                 // only extract urls if the content type is text/html
                 if ('text/html' === $response->getContentType()) {
@@ -66,7 +66,7 @@ class Scanner
 
                 $violation = $this->checkResponse($response);
                 $violation['parent'] = $this->pageContainer->getParent($currentUri);
-                $violation['contentType'] = $response->getHeader('Content-Type')[0];
+                $violation['contentType'] = $response->getContentType();
                 $violations[$response->getUri()] = $violation;
 
                 $this->progressBar->advance();

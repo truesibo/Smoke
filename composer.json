@@ -20,8 +20,14 @@
       "whm\\Smoke\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "whm\\Smoke\\Test\\": "test/unit"
+    }
+  },
   "scripts" : {
-        "cs" : "vendor/bin/php-cs-fixer fix $1"
+     "cs" : "vendor/bin/php-cs-fixer fix $1",
+     "test" : "vendor/bin/phpunit $1"
   },
   "bin": [
     "bin/Smoke.php"

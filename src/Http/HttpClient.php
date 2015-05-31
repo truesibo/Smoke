@@ -3,7 +3,6 @@
 namespace whm\Smoke\Http;
 
 use Ivory\HttpAdapter\HttpAdapterInterface;
-use Ivory\HttpAdapter\Message\Request;
 use Ivory\HttpAdapter\MultiHttpAdapterException;
 
 /**

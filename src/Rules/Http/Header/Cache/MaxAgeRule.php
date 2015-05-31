@@ -13,7 +13,7 @@ class MaxAgeRule implements Rule
 {
     public function validate(Response $response)
     {
-        if ($response->hasHeader('max-age') &&  $response->getHeader('max-age')[0] === '0') {
+        if ($response->hasHeader('Cache-Control') && false !== strpos($response->getHeader('Cache-Control')[0], 'max-age=0')) {
             throw new ValidationFailedException('max-age=0 was found');
         }
     }

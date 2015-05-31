@@ -1,6 +1,8 @@
 <?php
 
-class RequestTest extends PHPUnit_Framework_TestCase
+namespace whm\Smoke\Test\Http;
+
+class RequestTest extends \PHPUnit_Framework_TestCase
 {
     public function testRequest()
     {
